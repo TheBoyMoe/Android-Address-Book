@@ -78,5 +78,19 @@
         <item name="android:ellipsize">end</item>
     </style>
 
+    <style name="TextStyle.ModelItem">
+        <item name="android:textSize">22sp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="TextStyle.ModelItem.Title">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextStyle.ModelItem.Description">
+
+    </style>
+
 
 </resources>
