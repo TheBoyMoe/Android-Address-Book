@@ -1,0 +1,18 @@
+<resources>
+
+    <dimen name="xxsmall">2dp</dimen>
+    <dimen name="xsmall">4dp</dimen>
+    <dimen name="small">8dp</dimen>
+    <dimen name="normal">16dp</dimen>
+    <dimen name="medium">24dp</dimen>
+    <dimen name="large">32dp</dimen>
+    <dimen name="xlarge">48dp</dimen>
+    <dimen name="xxlarge">56dp</dimen>
+
+    <dimen name="image_view_size">200dp</dimen>
+    <dimen name="grid_item_space">1dp</dimen>
+    <dimen name="small_thumbnail_size">80dp</dimen>
+    <dimen name="icon_size">40dp</dimen>
+    <dimen name="navigation_drawer_header_height">192dp</dimen>
+
+</resources>
