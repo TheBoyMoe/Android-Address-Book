@@ -11,7 +11,7 @@ public class DatabaseContract {
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + AUTHORITY);
 
     // define database table and column names (base columns adds _id column, used ti identify each record)
-    public static final class Item implements BaseColumns {
+    public static final class Model implements BaseColumns {
 
         // define the table name
         public static final String TABLE_NAME = "items";
