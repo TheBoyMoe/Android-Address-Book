@@ -51,9 +51,32 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="TextStyle.NavDrawer">
+        <item name="android:layout_marginLeft">@dimen/normal</item>
+    </style>
+
+
+    <style name="TextStyle.NavDrawer.Title">
+        <item name="android:textColor">@color/colorInverseText</item>
+        <item name="android:layout_marginBottom">@dimen/normal</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <style name="TextStyle.NavDrawer.MenuItem">
+
+    </style>
+
     <style name="TextStyle.PlaceHolder">
         <item name="android:textSize">24sp</item>
         <item name="android:layout_centerInParent">true</item>
     </style>
+
+    <style name="TextStyle.ToolbarTitle">
+        <item name="android:textColor">@color/colorInverseText</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
 
 </resources>
