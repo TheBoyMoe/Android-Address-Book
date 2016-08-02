@@ -1,4 +1,4 @@
-package com.example.demo.model;
+package com.example.demo.data;
 
 import android.content.ContentUris;
 import android.net.Uri;

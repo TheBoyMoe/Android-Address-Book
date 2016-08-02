@@ -1,9 +1,9 @@
-package com.example.demo.model;
+package com.example.demo.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import static com.example.demo.model.DatabaseContract.Model;
+import static com.example.demo.data.DatabaseContract.Model;
 
 public class DatabaseHelper extends SQLiteOpenHelper{
 
