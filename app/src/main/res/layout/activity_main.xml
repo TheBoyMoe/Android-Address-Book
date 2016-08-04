@@ -14,12 +14,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- fragment content goes here -->
-        <FrameLayout
-            android:id="@+id/fragment_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        <!--<FrameLayout-->
+            <!--android:id="@+id/fragment_container"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"/>-->
 
+        <!-- fragment content goes here -->
+        <include layout="@layout/content_main"/>
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
@@ -35,7 +36,7 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <include layout="@layout/content_placeholder"/>
+        <!--<include layout="@layout/content_placeholder"/>-->
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"

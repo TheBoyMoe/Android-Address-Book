@@ -3,6 +3,7 @@
     <string name="app_name">Android Demo App</string>
     <string name="action_settings">Settings</string>
     <string name="place_holder_text">Placeholder text</string>
+    <string name="home_fragment">Home fragment</string>
 
     <string name="nav_menu_title_home">Home</string>
     <string name="nav_menu_title_explore">Explore</string>
@@ -16,5 +17,7 @@
     <string name="invalid_insert_uri">Invalid insert uri</string>
     <string name="invalid_update_uri">Invalid update uri</string>
     <string name="invalid_delete_uri">Invalid delete uri</string>
+    <string name="drawer_open">Open drawer</string>
+    <string name="drawer_close">Close drawer</string>
 
 </resources>

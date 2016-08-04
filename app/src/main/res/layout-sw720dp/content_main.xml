@@ -10,7 +10,7 @@
               android:layout_height="match_parent">
 
     <FrameLayout
-        android:id="@+id/list_item_pane"
+        android:id="@+id/fragment_container"
         android:padding="@dimen/normal"
         android:layout_width="0dp"
         android:layout_weight="1"
@@ -20,7 +20,7 @@
 
 
     <FrameLayout
-        android:id="@+id/detail_item_pane"
+        android:id="@+id/detail_pane"
         android:layout_weight="1"
         android:layout_width="0dp"
         android:layout_marginLeft="@dimen/normal"
