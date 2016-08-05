@@ -17,8 +17,12 @@ public class DatabaseContract {
         public static final String TABLE_NAME = "items";
 
         // define the column names
-        public static final String COLUMN_TITLE = "title";
-        public static final String COLUMN_DESCRIPTION = "description";
+        public static final String COLUMN_NAME = "name";
+        public static final String COLUMN_ADDRESS = "address";
+        public static final String COLUMN_URL = "url";
+        public static final String COLUMN_EMAIL = "email";
+        public static final String COLUMN_PHONE = "phone";
+
 
         // identify the table
         public static final Uri CONTENT_URI =

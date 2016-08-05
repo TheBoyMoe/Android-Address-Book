@@ -4,28 +4,63 @@ import java.util.Locale;
 
 public class ModelItem {
 
-    private String mTitle;
-    private String mDescription;
+    private String mName;
+    private String mAddress;
+    private String mUrl;
+    private String mEmail;
+    private String mPhone;
 
-    public String getTitle() {
-        return mTitle;
+    public ModelItem(String name, String address, String url, String email, String phone) {
+        mName = name;
+        mAddress = address;
+        mUrl = url;
+        mEmail = email;
+        mPhone = phone;
     }
 
-    public void setTitle(String title) {
-        mTitle = title;
+    public String getName() {
+        return mName;
     }
 
-    public String getDescription() {
-        return mDescription;
+    public void setName(String name) {
+        mName = name;
     }
 
-    public void setDescription(String description) {
-        mDescription = description;
+    public String getAddress() {
+        return mAddress;
+    }
+
+    public void setAddress(String address) {
+        mAddress = address;
+    }
+
+    public String getEmail() {
+        return mEmail;
+    }
+
+    public void setEmail(String email) {
+        mEmail = email;
+    }
+
+    public String getPhone() {
+        return mPhone;
+    }
+
+    public void setPhone(String phone) {
+        mPhone = phone;
+    }
+
+    public String getUrl() {
+        return mUrl;
+    }
+
+    public void setUrl(String url) {
+        mUrl = url;
     }
 
     @Override
     public String toString() {
-        return String.format(Locale.ENGLISH, "%s, %s", getTitle(), getDescription());
+        return String.format(Locale.ENGLISH, "%s, %s", getName(), getAddress());
     }
 
 

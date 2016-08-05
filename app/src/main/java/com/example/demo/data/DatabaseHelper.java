@@ -20,8 +20,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         final String CREATE_MODEL_TABLE =
                 "CREATE TABLE " + Model.TABLE_NAME + "("
                 + Model._ID + " integer primary key, "
-                + Model.COLUMN_TITLE + " TEXT, "
-                + Model.COLUMN_DESCRIPTION + " TEXT);";
+                + Model.COLUMN_NAME + " TEXT, "
+                + Model.COLUMN_ADDRESS + " TEXT, "
+                + Model.COLUMN_URL + " TEXT, "
+                + Model.COLUMN_EMAIL + " TEXT, "
+                + Model.COLUMN_PHONE + " TEXT);";
         db.execSQL(CREATE_MODEL_TABLE);
     }
 
