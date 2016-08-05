@@ -1,6 +1,32 @@
 package com.example.demo.data;
 
+import com.example.demo.R;
+
 public class ModelItemData {
+
+    public static int getImageDrawable(int position) {
+        switch (position) {
+
+            default:
+            case 0:
+                return R.drawable.pierre_marcolini;
+            case 1:
+                return R.drawable.mast_brothers;
+            case 2:
+                return R.drawable.melt;
+            case 3:
+                return R.drawable.paul_young;
+            case 4:
+                return R.drawable.la_maison_du_chocolate;
+            case 5:
+                return R.drawable.artisan_du_chocolate;
+            case 6:
+                return R.drawable.melange;
+            case 7:
+                return R.drawable.philip_neal;
+
+        }
+    }
 
     public static ModelItem[] items = {
             new ModelItem("Pierre Marcolini", "37 Marylebone High St, Marylebone, W1U", "https://eu.marcolini.com", "info@marcolini.com", "020 7486 7196"),

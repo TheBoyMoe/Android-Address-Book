@@ -274,14 +274,14 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void listItemClick(int position) {
+        addFragmentToLayout(HomeDetailFragment.newInstance(position), false, true, DETAIL_PAGE_FRAGMENT);
         if (!mIsTablet) { // FIXME tablet in portrait
             showUpNav();
-            // swap list fragment for the detail fragment
-            addFragmentToLayout(HomeDetailFragment.newInstance(position), false, true, DETAIL_PAGE_FRAGMENT);
-        } else {
-            // TODO setup tablet view
-            Utils.showSnackbar(mLayout, "on tablet");
         }
+//        else {
+//            // TODO setup tablet view
+//
+//        }
     }
 
     private void addFragmentToLayout(Fragment fragment, boolean primary, boolean addToBackStack, String fragmentTag) {

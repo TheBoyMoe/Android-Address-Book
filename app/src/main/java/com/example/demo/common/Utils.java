@@ -8,7 +8,11 @@ import android.os.IBinder;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -55,6 +59,14 @@ public class Utils {
         SimpleDateFormat formatter = new SimpleDateFormat(pattern, Locale.getDefault());
 
         return Long.valueOf(formatter.format(new Date()));
+    }
+
+    public static void loadPreviewWithGlide(Context context, String previewPath, ImageView view) {
+        Glide.with(context)
+                .load(previewPath)
+                .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(view);
     }
 
 }

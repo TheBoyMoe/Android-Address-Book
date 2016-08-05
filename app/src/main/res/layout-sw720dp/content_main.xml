@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="horizontal"
+              android:paddingTop="?attr/actionBarSize"
               android:baselineAligned="false"
               android:background="@color/colorSecondaryBackground"
               android:divider="?android:listDivider"
@@ -9,6 +10,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
+    <!-- list container -->
     <FrameLayout
         android:id="@+id/fragment_container"
         android:padding="@dimen/normal"
@@ -16,13 +18,15 @@
         android:layout_weight="1"
         android:layout_height="match_parent"/>
 
-
+    <!-- detail container -->
     <FrameLayout
         android:id="@+id/detail_pane"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:paddingLeft="@dimen/medium"
+        android:paddingRight="@dimen/medium"
         android:layout_weight="1"
         android:layout_width="0dp"
-        android:layout_marginLeft="@dimen/normal"
-        android:layout_marginStart="@dimen/normal"
         android:layout_height="match_parent"/>
 
 </LinearLayout>

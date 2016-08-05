@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
+        android:weightSum="3"
+        android:background="@color/colorPrimaryBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/item_backdrop"
+        android:layout_width="match_parent"
+        android:scaleType="centerCrop"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        tools:ignore="ContentDescription"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:paddingTop="@dimen/normal"
+        android:paddingLeft="@dimen/large"
+        android:paddingRight="@dimen/large"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/item_name"
+            style="@style/TextStyle.ModelItem.Name"/>
+
+        <TextView
+            android:id="@+id/item_address"
+            style="@style/TextStyle.ModelItem"/>
+
+        <TextView
+            android:id="@+id/item_url"
+            style="@style/TextStyle.ModelItem"/>
+
+        <TextView
+            android:id="@+id/item_email"
+            style="@style/TextStyle.ModelItem"/>
+
+        <TextView
+            android:id="@+id/item_phone"
+            style="@style/TextStyle.ModelItem"/>
+
+    </LinearLayout>
+
+</LinearLayout>

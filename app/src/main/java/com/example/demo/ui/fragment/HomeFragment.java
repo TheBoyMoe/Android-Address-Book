@@ -27,10 +27,6 @@ public class HomeFragment extends ContractFragment<HomeFragment.Contract>{
         void listItemClick(int position);
     }
 
-    private RecyclerView mRecyclerView;
-    private ModelItemAdapter mAdapter;
-    private ModelItemAdapter.ModelItemClickListener mItemClickListener;
-
     public HomeFragment() {}
 
     public static HomeFragment newInstance() {
@@ -41,24 +37,23 @@ public class HomeFragment extends ContractFragment<HomeFragment.Contract>{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.content_recycler, container, false);
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator()); // ?? FIXME
-        mRecyclerView.addItemDecoration(new CustomItemDecoration(
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setItemAnimator(new DefaultItemAnimator()); // ?? FIXME
+        recyclerView.addItemDecoration(new CustomItemDecoration(
                 getResources().getDimensionPixelOffset(R.dimen.list_item_vertical_margin),
                 getResources().getDimensionPixelOffset(R.dimen.list_item_horizontal_margin)
         ));
-        mItemClickListener = new ModelItemAdapter.ModelItemClickListener() {
+        ModelItemAdapter.ModelItemClickListener itemClickListener = new ModelItemAdapter.ModelItemClickListener() {
             @Override
             public void onClick(int position) {
                 getContract().listItemClick(position);
             }
         };
         List<ModelItem> items = new ArrayList<>(Arrays.asList(ModelItemData.items));
-        mAdapter = new ModelItemAdapter(items, mItemClickListener);
-        mRecyclerView.setAdapter(mAdapter);
-
+        ModelItemAdapter adapter = new ModelItemAdapter(items, itemClickListener);
+        recyclerView.setAdapter(adapter);
 
         return view;
     }
