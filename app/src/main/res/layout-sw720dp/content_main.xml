@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="horizontal"
               android:baselineAligned="false"
+              android:background="@color/colorSecondaryBackground"
               android:divider="?android:listDivider"
               android:showDividers="middle"
-              android:padding="@dimen/normal"
               android:weightSum="2"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
@@ -14,8 +14,6 @@
         android:padding="@dimen/normal"
         android:layout_width="0dp"
         android:layout_weight="1"
-        android:layout_marginStart="@dimen/normal"
-        android:layout_marginLeft="@dimen/normal"
         android:layout_height="match_parent"/>
 
 

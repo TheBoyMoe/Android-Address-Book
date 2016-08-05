@@ -263,22 +263,23 @@ public class MainActivity extends AppCompatActivity implements
             // add the list fragment
             addFragmentToLayout(HomeFragment.newInstance(), true, true, mCurrentTitle);
 
-            // add detail fragment
-            addFragmentToLayout(HomeDetailFragment.newInstance(), false, true, DETAIL_PAGE_FRAGMENT);
+            // add detail fragment - display the initial item
+            addFragmentToLayout(HomeDetailFragment.newInstance(0), false, true, DETAIL_PAGE_FRAGMENT);
         } else {
-            // add the list fragment
+            // otherwise on phone, add the list fragment
             addFragmentToLayout(HomeFragment.newInstance(), true, true, mCurrentTitle);
         }
     }
 
 
     @Override
-    public void listItemClick() {
-        if (!mIsTablet) {
+    public void listItemClick(int position) {
+        if (!mIsTablet) { // FIXME tablet in portrait
             showUpNav();
             // swap list fragment for the detail fragment
-            addFragmentToLayout(HomeDetailFragment.newInstance(), false, true, DETAIL_PAGE_FRAGMENT);
+            addFragmentToLayout(HomeDetailFragment.newInstance(position), false, true, DETAIL_PAGE_FRAGMENT);
         } else {
+            // TODO setup tablet view
             Utils.showSnackbar(mLayout, "on tablet");
         }
     }

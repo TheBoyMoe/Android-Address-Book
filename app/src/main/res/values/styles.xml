@@ -82,13 +82,14 @@
         <item name="android:textSize">22sp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:singleLine">true</item>
     </style>
 
-    <style name="TextStyle.ModelItem.Title">
+    <style name="TextStyle.ModelItem.Name">
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="TextStyle.ModelItem.Description">
+    <style name="TextStyle.ModelItem.Address">
 
     </style>
 

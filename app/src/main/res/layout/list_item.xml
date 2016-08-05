@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
               android:orientation="horizontal"
+              android:background="@drawable/touch_selector"
               android:padding="@dimen/normal"
               android:layout_width="match_parent"
               android:layout_height="wrap_content">
@@ -22,14 +23,14 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/model_title"
-            tools:text="John Smith"
-            style="@style/TextStyle.ModelItem.Title"/>
+            android:id="@+id/model_name"
+            tools:text="Belgium Chocolates"
+            style="@style/TextStyle.ModelItem.Name"/>
 
         <TextView
-            android:id="@+id/model_description"
-            tools:text="just another short description"
-            style="@style/TextStyle.ModelItem.Description"/>
+            android:id="@+id/model_address"
+            tools:text="22 Fenchurch Street, London, EC1"
+            style="@style/TextStyle.ModelItem.Address"/>
 
     </LinearLayout>
 
