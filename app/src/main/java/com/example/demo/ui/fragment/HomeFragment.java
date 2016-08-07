@@ -2,6 +2,7 @@ package com.example.demo.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,12 +21,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class HomeFragment extends ContractFragment<HomeFragment.Contract>{
+public class HomeFragment extends Fragment{
 
     // callback method implemented by hosting activity
-    public interface Contract {
-        void listItemClick(int position);
-    }
+//    public interface Contract {
+//        void listItemClick(int position);
+//    }
 
     public HomeFragment() {}
 
@@ -48,7 +49,9 @@ public class HomeFragment extends ContractFragment<HomeFragment.Contract>{
         ModelItemAdapter.ModelItemClickListener itemClickListener = new ModelItemAdapter.ModelItemClickListener() {
             @Override
             public void onClick(int position) {
-                getContract().listItemClick(position);
+                // getContract().listItemClick(position);
+                // propagate the call up to the hosting fragment
+                ((MainFragment)getParentFragment()).listItemClick(position);
             }
         };
         List<ModelItem> items = new ArrayList<>(Arrays.asList(ModelItemData.items));

@@ -20,7 +20,8 @@
             <!--android:layout_height="match_parent"/>-->
 
         <!-- fragment content goes here -->
-        <include layout="@layout/content_main"/>
+        <!--<include layout="@layout/content_main"/>-->
+        <include layout="@layout/content_container"/>
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"

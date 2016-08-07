@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="horizontal"
-              android:paddingTop="?attr/actionBarSize"
               android:baselineAligned="false"
-              android:background="@color/colorSecondaryBackground"
               android:divider="?android:listDivider"
               android:showDividers="middle"
               android:weightSum="2"

@@ -25,8 +25,8 @@ import com.example.demo.common.Utils;
 import com.example.demo.ui.fragment.AboutFragment;
 import com.example.demo.ui.fragment.ExploreFragment;
 import com.example.demo.ui.fragment.FavouriteFragment;
-import com.example.demo.ui.fragment.HomeDetailFragment;
 import com.example.demo.ui.fragment.HomeFragment;
+import com.example.demo.ui.fragment.MainFragment;
 import com.example.demo.ui.fragment.SettingsFragment;
 
 import timber.log.Timber;
@@ -38,8 +38,7 @@ import timber.log.Timber;
  *  [3] http://stackoverflow.com/questions/17107005/how-to-clear-fragment-backstack-in-android
  *  [4] https://www.captechconsulting.com/blogs/supporting-phones-and-tablets-v1 (phone/tablet layout)
  */
-public class MainActivity extends AppCompatActivity implements
-        HomeFragment.Contract{
+public class MainActivity extends AppCompatActivity{
 
     private static final String CURRENT_PAGE_TITLE = "current_page_title";
     private static final String DETAIL_PAGE_FRAGMENT = "detail_page_fragment";
@@ -50,15 +49,19 @@ public class MainActivity extends AppCompatActivity implements
     private String mCurrentTitle;
     private boolean mIsTablet;
     private boolean mIsPortrait;
+    private boolean mIsDetailShowing;
     private boolean mIsUpVisible;
     private ActionBarDrawerToggle mDrawerToggle;
     private Toolbar mToolbar;
+
+    public interface onBackPressedListener {
+        boolean onBackPressed();
+    }
 
     public static void launch(Activity activity) {
         Intent intent = new Intent(activity, MainActivity.class);
         activity.startActivity(intent);
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,42 +90,65 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onBackPressed() {
-        // update the page title
-        FragmentManager fm = getSupportFragmentManager();
-        int count = fm.getBackStackEntryCount();
-        if (count <= 1) {
-            finish();
-        } else{
-            mCurrentTitle = fm.getBackStackEntryAt(count - 2).getName();
-            if (mCurrentTitle.equals(DETAIL_PAGE_FRAGMENT)) {
-                mCurrentTitle = "Home";
-            }
-        }
-        super.onBackPressed();
-        setTitle(mCurrentTitle);
+    protected void onResume() {
+        super.onResume();
         if (mIsUpVisible) {
+            showUpNav();
+        } else {
             hideUpNav();
         }
+    }
 
-        // update nav drawer selection
-        switch (mCurrentTitle) {
-            case "Home":
-                mNavigationView.setCheckedItem(R.id.drawer_home);
-                break;
-            case "Explore":
-                mNavigationView.setCheckedItem(R.id.drawer_explore);
-                break;
-            case "Favourites":
-                mNavigationView.setCheckedItem(R.id.drawer_favourite);
-                break;
-            case "Settings":
-                mNavigationView.setCheckedItem(R.id.drawer_settings);
-                break;
-            case "About":
-                mNavigationView.setCheckedItem(R.id.drawer_about);
-                break;
+    @Override
+    public void onBackPressed() {
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_container);
+        if (currentFragment == null) return;
+
+        if (currentFragment instanceof onBackPressedListener) {
+            if (((onBackPressedListener)currentFragment).onBackPressed()) {
+                // dealt with in the fragment
+                return;
+            }
+            else {
+                finish();
+            }
         }
+
+        // update the page title
+//        FragmentManager fm = getSupportFragmentManager();
+//        int count = fm.getBackStackEntryCount();
+//        if (count <= 1) {
+//            finish();
+//        } else{
+//            mCurrentTitle = fm.getBackStackEntryAt(count - 2).getName();
+//            if (mCurrentTitle.equals(DETAIL_PAGE_FRAGMENT)) {
+//                mCurrentTitle = "Home";
+//            }
+//        }
+//        super.onBackPressed();
+//        setTitle(mCurrentTitle);
+//        if (mIsUpVisible) {
+//            hideUpNav();
+//        }
+//
+//        // update nav drawer selection
+//        switch (mCurrentTitle) {
+//            case "Home":
+//                mNavigationView.setCheckedItem(R.id.drawer_home);
+//                break;
+//            case "Explore":
+//                mNavigationView.setCheckedItem(R.id.drawer_explore);
+//                break;
+//            case "Favourites":
+//                mNavigationView.setCheckedItem(R.id.drawer_favourite);
+//                break;
+//            case "Settings":
+//                mNavigationView.setCheckedItem(R.id.drawer_settings);
+//                break;
+//            case "About":
+//                mNavigationView.setCheckedItem(R.id.drawer_about);
+//                break;
+//        }
 
     }
 
@@ -250,7 +276,7 @@ public class MainActivity extends AppCompatActivity implements
             hideUpNav();
             getSupportFragmentManager().popBackStackImmediate();
         }
-        addFragmentToLayout(fragment, true, true, mCurrentTitle);
+        // addFragmentToLayout(fragment, true, true, mCurrentTitle); // FIXME
         setTitle(mCurrentTitle); // display title on toolbar
 
         mDrawer.closeDrawers();
@@ -259,30 +285,47 @@ public class MainActivity extends AppCompatActivity implements
     private void displayInitialFragment() {
         mCurrentTitle = getString(R.string.nav_menu_title_home);
         setTitle(mCurrentTitle);
-        if (mIsTablet) {
-            // add the list fragment
-            addFragmentToLayout(HomeFragment.newInstance(), true, true, mCurrentTitle);
-
-            // add detail fragment - display the initial item
-            addFragmentToLayout(HomeDetailFragment.newInstance(0), false, true, DETAIL_PAGE_FRAGMENT);
-        } else {
-            // otherwise on phone, add the list fragment
-            addFragmentToLayout(HomeFragment.newInstance(), true, true, mCurrentTitle);
-        }
-    }
-
-
-    @Override
-    public void listItemClick(int position) {
-        addFragmentToLayout(HomeDetailFragment.newInstance(position), false, true, DETAIL_PAGE_FRAGMENT);
-        if (!mIsTablet) { // FIXME tablet in portrait
-            showUpNav();
-        }
-//        else {
-//            // TODO setup tablet view
+//        if (mIsTablet) {
+//            // add the list fragment
+//            addFragmentToLayout(HomeFragment.newInstance(), true, true, mCurrentTitle);
 //
+//            // add detail fragment - display the initial item
+//            addFragmentToLayout(HomeDetailFragment.newInstance(0), false, true, DETAIL_PAGE_FRAGMENT);
+//        } else {
+//            // otherwise on phone, add the list fragment
+//            addFragmentToLayout(HomeFragment.newInstance(), true, true, mCurrentTitle);
 //        }
+
+        // load the container fragment which hosts the list/detail fragments
+        // depending on whether the device is a phone or tablet
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.content_container, MainFragment.newInstance())
+                .commit();
+
     }
+
+    public void showUpNav() {
+        if (!mIsTablet || mIsPortrait) {
+            mIsUpVisible = true;
+            mDrawerToggle.setDrawerIndicatorEnabled(false);
+            mToolbar.setNavigationIcon(ContextCompat.getDrawable(this, R.drawable.ic_back));
+            mDrawerToggle.setToolbarNavigationClickListener(clickBackArrowNavIcon);
+        }
+    }
+
+    public void hideUpNav() {
+        if (!mIsTablet || mIsPortrait) {
+            mIsUpVisible = false;
+            mDrawerToggle.setDrawerIndicatorEnabled(true);
+        }
+    }
+
+    View.OnClickListener clickBackArrowNavIcon = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            onBackPressed();
+        }
+    };
 
     private void addFragmentToLayout(Fragment fragment, boolean primary, boolean addToBackStack, String fragmentTag) {
         if (fragment == null) return;
@@ -311,28 +354,5 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
-    private void showUpNav() {
-        if (!mIsTablet || mIsPortrait) {
-            mIsUpVisible = true;
-            mDrawerToggle.setDrawerIndicatorEnabled(false);
-            mToolbar.setNavigationIcon(ContextCompat.getDrawable(this, R.drawable.ic_back));
-            mDrawerToggle.setToolbarNavigationClickListener(clickDrawerNavIcon);
-        }
-    }
-
-    private void hideUpNav() {
-        if (!mIsTablet || mIsPortrait) {
-            mIsUpVisible = false;
-            mDrawerToggle.setDrawerIndicatorEnabled(true);
-        }
-    }
-
-    View.OnClickListener clickDrawerNavIcon = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            getSupportFragmentManager().popBackStackImmediate();
-            hideUpNav();
-        }
-    };
 
 }
