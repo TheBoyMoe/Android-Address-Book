@@ -244,40 +244,40 @@ public class MainActivity extends AppCompatActivity{
 
         // highlight the selected item & update the page title
         item.setChecked(true);
-        switch (item.getTitle().toString()) {
-            case "Home":
-                mCurrentTitle = getString(R.string.nav_menu_title_home);
-                break;
-            case "Explore":
-                mCurrentTitle = getString(R.string.nav_menu_title_explore);
-                break;
-            case "Favourites":
-                mCurrentTitle = getString(R.string.nav_menu_title_favourite);
-                break;
-            case "Settings":
-                mCurrentTitle = getString(R.string.nav_menu_title_settings);
-                break;
-            case "About":
-                mCurrentTitle = getString(R.string.nav_menu_title_about);
-                break;
-            default:
-                mCurrentTitle = getString(R.string.nav_menu_title_home);
-        }
+//        switch (item.getTitle().toString()) {
+//            case "Home":
+//                mCurrentTitle = getString(R.string.nav_menu_title_home);
+//                break;
+//            case "Explore":
+//                mCurrentTitle = getString(R.string.nav_menu_title_explore);
+//                break;
+//            case "Favourites":
+//                mCurrentTitle = getString(R.string.nav_menu_title_favourite);
+//                break;
+//            case "Settings":
+//                mCurrentTitle = getString(R.string.nav_menu_title_settings);
+//                break;
+//            case "About":
+//                mCurrentTitle = getString(R.string.nav_menu_title_about);
+//                break;
+//            default:
+//                mCurrentTitle = getString(R.string.nav_menu_title_home);
+//        }
 
         // clear the back stack if adding home fragment again
-        FragmentManager fm = getSupportFragmentManager();
-        int count = fm.getBackStackEntryCount();
-        if (count > 1 && fragmentClass == HomeFragment.class) {
-            fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        }
+//        FragmentManager fm = getSupportFragmentManager();
+//        int count = fm.getBackStackEntryCount();
+//        if (count > 1 && fragmentClass == HomeFragment.class) {
+//            fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+//        }
 
         // hide up arrow and pop stack if home fragment is visible
-        if (mIsUpVisible) {
-            hideUpNav();
-            getSupportFragmentManager().popBackStackImmediate();
-        }
-        // addFragmentToLayout(fragment, true, true, mCurrentTitle); // FIXME
-        setTitle(mCurrentTitle); // display title on toolbar
+//        if (mIsUpVisible) {
+//            hideUpNav();
+//            getSupportFragmentManager().popBackStackImmediate();
+//        }
+        // addFragmentToLayout(fragment, true, true, mCurrentTitle);
+        // setTitle(mCurrentTitle); // display title on toolbar
 
         mDrawer.closeDrawers();
     }
