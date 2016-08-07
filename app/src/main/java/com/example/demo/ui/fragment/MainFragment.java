@@ -18,7 +18,6 @@ public class MainFragment extends Fragment implements MainActivity.onBackPressed
 
     private static final String IS_DETAIL_SHOWING = "is_detail_showing";
     private static final String DETAIL_ITEM_POSITION = "detail_item_position";
-
     private boolean mIsTablet = false;
     private boolean mIsPortrait = false;
     private boolean mIsDetailShowing = false;
@@ -85,6 +84,7 @@ public class MainFragment extends Fragment implements MainActivity.onBackPressed
                 showPrimaryFragment(HomeFragment.newInstance(), false, null, true);
                 mIsDetailShowing = false;
                 ((MainActivity)getActivity()).hideUpNav();
+                ((MainActivity)getActivity()).setPageTitle("Home");
                 return true;
             }
         }
@@ -93,7 +93,7 @@ public class MainFragment extends Fragment implements MainActivity.onBackPressed
 
 
     // called by the child home fragment
-    protected void listItemClick(int position) {
+    protected void listItemClick(int position, String title) {
         mIsDetailShowing = true;
         mDetailItemPosition = position;
 
@@ -105,6 +105,12 @@ public class MainFragment extends Fragment implements MainActivity.onBackPressed
 
         // tell the hosting activity to show the 'up arrow' on devices other than tablets in landscape orientation
         ((MainActivity)getActivity()).showUpNav();
+        // update the page title
+        if (mIsTablet && !mIsPortrait) {
+            return;
+        } else {
+            ((MainActivity)getActivity()).setPageTitle(title);
+        }
     }
 
     private void showTabletView() {

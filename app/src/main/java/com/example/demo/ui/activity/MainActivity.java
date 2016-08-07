@@ -41,7 +41,7 @@ import timber.log.Timber;
 public class MainActivity extends AppCompatActivity{
 
     private static final String CURRENT_PAGE_TITLE = "current_page_title";
-    private static final String DETAIL_PAGE_FRAGMENT = "detail_page_fragment";
+    //private static final String DETAIL_PAGE_FRAGMENT = "detail_page_fragment";
     private static final String IS_UP_VISIBLE = "is_up_visible";
     private DrawerLayout mDrawer;
     private NavigationView mNavigationView;
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity{
     private String mCurrentTitle;
     private boolean mIsTablet;
     private boolean mIsPortrait;
-    private boolean mIsDetailShowing;
+    //private boolean mIsDetailShowing;
     private boolean mIsUpVisible;
     private ActionBarDrawerToggle mDrawerToggle;
     private Toolbar mToolbar;
@@ -186,6 +186,13 @@ public class MainActivity extends AppCompatActivity{
         if (getSupportActionBar() !=null) {
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_drawer);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    public void setPageTitle(String title) {
+        if (getSupportActionBar() != null) {
+            mCurrentTitle = title;
+            getSupportActionBar().setTitle(mCurrentTitle);
         }
     }
 

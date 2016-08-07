@@ -46,15 +46,15 @@ public class HomeFragment extends Fragment{
                 getResources().getDimensionPixelOffset(R.dimen.list_item_vertical_margin),
                 getResources().getDimensionPixelOffset(R.dimen.list_item_horizontal_margin)
         ));
+        final List<ModelItem> items = new ArrayList<>(Arrays.asList(ModelItemData.items));
         ModelItemAdapter.ModelItemClickListener itemClickListener = new ModelItemAdapter.ModelItemClickListener() {
             @Override
             public void onClick(int position) {
                 // getContract().listItemClick(position);
                 // propagate the call up to the hosting fragment
-                ((MainFragment)getParentFragment()).listItemClick(position);
+                ((MainFragment)getParentFragment()).listItemClick(position, items.get(position).getName());
             }
         };
-        List<ModelItem> items = new ArrayList<>(Arrays.asList(ModelItemData.items));
         ModelItemAdapter adapter = new ModelItemAdapter(items, itemClickListener);
         recyclerView.setAdapter(adapter);
 
