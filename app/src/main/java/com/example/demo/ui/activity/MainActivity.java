@@ -7,7 +7,6 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
@@ -41,16 +40,15 @@ import timber.log.Timber;
 public class MainActivity extends AppCompatActivity{
 
     private static final String CURRENT_PAGE_TITLE = "current_page_title";
-    //private static final String DETAIL_PAGE_FRAGMENT = "detail_page_fragment";
     private static final String IS_UP_VISIBLE = "is_up_visible";
+    private static final String IS_DETAIL_VISIBLE = "is_detail_visible";
     private DrawerLayout mDrawer;
-    private NavigationView mNavigationView;
     private CoordinatorLayout mLayout;
     private String mCurrentTitle;
     private boolean mIsTablet;
     private boolean mIsPortrait;
-    //private boolean mIsDetailShowing;
     private boolean mIsUpVisible;
+    private boolean mIsDetailVisible;
     private ActionBarDrawerToggle mDrawerToggle;
     private Toolbar mToolbar;
 
@@ -84,7 +82,15 @@ public class MainActivity extends AppCompatActivity{
                 showUpNav();
             }
             mCurrentTitle = savedInstanceState.getString(CURRENT_PAGE_TITLE);
-            setTitle(mCurrentTitle);
+            // Timber.i("%s: retrieving title: %s", Constants.LOG_TAG, mCurrentTitle);
+            if (mIsTablet && !mIsPortrait) { // tablets in landscape orientation
+                setTitle("Home");
+            } else { // otherwise
+                if (mCurrentTitle == null && !mIsUpVisible) mCurrentTitle = "Home";
+                setTitle(mCurrentTitle);
+            }
+            Timber.i("%s: title: %s, portrait: %s, isUpVisible: %s",
+                    Constants.LOG_TAG, mCurrentTitle, mIsPortrait, mIsUpVisible);
         }
 
     }
@@ -134,19 +140,19 @@ public class MainActivity extends AppCompatActivity{
 //        // update nav drawer selection
 //        switch (mCurrentTitle) {
 //            case "Home":
-//                mNavigationView.setCheckedItem(R.id.drawer_home);
+//                navigationView.setCheckedItem(R.id.drawer_home);
 //                break;
 //            case "Explore":
-//                mNavigationView.setCheckedItem(R.id.drawer_explore);
+//                navigationView.setCheckedItem(R.id.drawer_explore);
 //                break;
 //            case "Favourites":
-//                mNavigationView.setCheckedItem(R.id.drawer_favourite);
+//                navigationView.setCheckedItem(R.id.drawer_favourite);
 //                break;
 //            case "Settings":
-//                mNavigationView.setCheckedItem(R.id.drawer_settings);
+//                navigationView.setCheckedItem(R.id.drawer_settings);
 //                break;
 //            case "About":
-//                mNavigationView.setCheckedItem(R.id.drawer_about);
+//                navigationView.setCheckedItem(R.id.drawer_about);
 //                break;
 //        }
 
@@ -156,6 +162,7 @@ public class MainActivity extends AppCompatActivity{
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(CURRENT_PAGE_TITLE, mCurrentTitle);
+        // Timber.i("%s: saving title: %s", Constants.LOG_TAG, mCurrentTitle);
         outState.putBoolean(IS_UP_VISIBLE, mIsUpVisible);
     }
 
@@ -190,9 +197,10 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void setPageTitle(String title) {
-        if (getSupportActionBar() != null) {
-            mCurrentTitle = title;
-            getSupportActionBar().setTitle(mCurrentTitle);
+        mCurrentTitle = title;
+        //Timber.i("%s: clicked title %s", Constants.LOG_TAG, mCurrentTitle);
+        if (!(mIsTablet && !mIsPortrait)) {
+            setTitle(mCurrentTitle);
         }
     }
 
@@ -209,8 +217,8 @@ public class MainActivity extends AppCompatActivity{
     private void setupDrawer() {
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar, R.string.drawer_open, R.string.drawer_close);
-        mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
-        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
                 selectDrawerItem(item);
@@ -312,7 +320,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void showUpNav() {
-        if (!mIsTablet || mIsPortrait) {
+        if (!(mIsTablet && !mIsPortrait)) { // everything except tablets in landscape orientation
             mIsUpVisible = true;
             mDrawerToggle.setDrawerIndicatorEnabled(false);
             mToolbar.setNavigationIcon(ContextCompat.getDrawable(this, R.drawable.ic_back));
@@ -321,7 +329,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void hideUpNav() {
-        if (!mIsTablet || mIsPortrait) {
+        if (!(mIsTablet && !mIsPortrait)) {
             mIsUpVisible = false;
             mDrawerToggle.setDrawerIndicatorEnabled(true);
         }

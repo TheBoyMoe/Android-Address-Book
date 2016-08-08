@@ -75,6 +75,7 @@ public class MainFragment extends Fragment implements MainActivity.onBackPressed
     // impl hosting activities onBackPressed method
     @Override
     public boolean onBackPressed() {
+        ((MainActivity)getActivity()).setPageTitle("Home");
         if (mIsTablet && !mIsPortrait) {
             return false;
         } else {
@@ -84,7 +85,6 @@ public class MainFragment extends Fragment implements MainActivity.onBackPressed
                 showPrimaryFragment(HomeFragment.newInstance(), false, null, true);
                 mIsDetailShowing = false;
                 ((MainActivity)getActivity()).hideUpNav();
-                ((MainActivity)getActivity()).setPageTitle("Home");
                 return true;
             }
         }
@@ -106,11 +106,12 @@ public class MainFragment extends Fragment implements MainActivity.onBackPressed
         // tell the hosting activity to show the 'up arrow' on devices other than tablets in landscape orientation
         ((MainActivity)getActivity()).showUpNav();
         // update the page title
-        if (mIsTablet && !mIsPortrait) {
-            return;
-        } else {
-            ((MainActivity)getActivity()).setPageTitle(title);
-        }
+        ((MainActivity)getActivity()).setPageTitle(title);
+//        if (mIsTablet && !mIsPortrait) {
+//            return;
+//        } else {
+//
+//        }
     }
 
     private void showTabletView() {
