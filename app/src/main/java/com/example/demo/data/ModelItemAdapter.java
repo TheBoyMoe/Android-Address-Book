@@ -1,6 +1,7 @@
 package com.example.demo.data;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +38,7 @@ public class ModelItemAdapter extends RecyclerView.Adapter<ModelItemAdapter.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.bindModelItem(mItems.get(position), position);
+        holder.bindModelItem(mItems.get(position));
     }
 
     @Override
@@ -46,10 +47,10 @@ public class ModelItemAdapter extends RecyclerView.Adapter<ModelItemAdapter.View
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+
         ImageView mIcon;
         TextView mName;
         TextView mAddress;
-        int mPosition;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -59,9 +60,7 @@ public class ModelItemAdapter extends RecyclerView.Adapter<ModelItemAdapter.View
             mAddress = (TextView) itemView.findViewById(R.id.model_address);
         }
 
-        public void bindModelItem(ModelItem item, int position) {
-            // Timber.i("%s item bound: %d", Constants.LOG_TAG, position);
-            mPosition = position;
+        public void bindModelItem(ModelItem item) {
             mName.setText(item.getName());
             mAddress.setText(item.getAddress());
             // generate image drawable
@@ -73,9 +72,8 @@ public class ModelItemAdapter extends RecyclerView.Adapter<ModelItemAdapter.View
 
         @Override
         public void onClick(View view) {
-            // Timber.i("%s item clicked: %d", Constants.LOG_TAG, mPosition); // ?? why does this have the correct position
             // propagate upto fragment
-            mListener.onClick(mPosition);
+            mListener.onClick(getAdapterPosition());
         }
 
     }

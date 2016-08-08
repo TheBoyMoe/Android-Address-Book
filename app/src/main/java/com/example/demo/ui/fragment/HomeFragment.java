@@ -41,7 +41,6 @@ public class HomeFragment extends Fragment{
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setItemAnimator(new DefaultItemAnimator()); // ?? FIXME
         recyclerView.addItemDecoration(new CustomItemDecoration(
                 getResources().getDimensionPixelOffset(R.dimen.list_item_vertical_margin),
                 getResources().getDimensionPixelOffset(R.dimen.list_item_horizontal_margin)
