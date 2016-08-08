@@ -107,11 +107,6 @@ public class MainFragment extends Fragment implements MainActivity.onBackPressed
         ((MainActivity)getActivity()).showUpNav();
         // update the page title
         ((MainActivity)getActivity()).setPageTitle(title);
-//        if (mIsTablet && !mIsPortrait) {
-//            return;
-//        } else {
-//
-//        }
     }
 
     private void showTabletView() {

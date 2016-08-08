@@ -41,14 +41,13 @@ public class MainActivity extends AppCompatActivity{
 
     private static final String CURRENT_PAGE_TITLE = "current_page_title";
     private static final String IS_UP_VISIBLE = "is_up_visible";
-    private static final String IS_DETAIL_VISIBLE = "is_detail_visible";
+
     private DrawerLayout mDrawer;
     private CoordinatorLayout mLayout;
     private String mCurrentTitle;
     private boolean mIsTablet;
     private boolean mIsPortrait;
     private boolean mIsUpVisible;
-    private boolean mIsDetailVisible;
     private ActionBarDrawerToggle mDrawerToggle;
     private Toolbar mToolbar;
 
@@ -73,22 +72,23 @@ public class MainActivity extends AppCompatActivity{
         initFab();
         setupDrawer();
 
-        // set the initial fragment on startup, otherwise restore the page title
+        // set the initial fragment on startup
         if (savedInstanceState == null) {
             displayInitialFragment();
         } else {
-            mIsUpVisible = savedInstanceState.getBoolean(IS_UP_VISIBLE);
-            if (mIsUpVisible) {
-                showUpNav();
-            }
+            // otherwise restore the current title and display up arrow where req'd
             mCurrentTitle = savedInstanceState.getString(CURRENT_PAGE_TITLE);
-            // Timber.i("%s: retrieving title: %s", Constants.LOG_TAG, mCurrentTitle);
             if (mIsTablet && !mIsPortrait) { // tablets in landscape orientation
                 setTitle("Home");
             } else { // otherwise
                 if (mCurrentTitle == null && !mIsUpVisible) mCurrentTitle = "Home";
                 setTitle(mCurrentTitle);
             }
+            mIsUpVisible = savedInstanceState.getBoolean(IS_UP_VISIBLE);
+            if (mIsUpVisible || (mIsTablet && mIsPortrait && (!mCurrentTitle.equals("Home")))) {
+                showUpNav();
+            }
+            // DEBUG
             Timber.i("%s: title: %s, portrait: %s, isUpVisible: %s",
                     Constants.LOG_TAG, mCurrentTitle, mIsPortrait, mIsUpVisible);
         }
@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity{
             }
         }
 
-        // update the page title
+        // update the page title - USED BY NAV DRAWER ITEMS
 //        FragmentManager fm = getSupportFragmentManager();
 //        int count = fm.getBackStackEntryCount();
 //        if (count <= 1) {
@@ -162,7 +162,6 @@ public class MainActivity extends AppCompatActivity{
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(CURRENT_PAGE_TITLE, mCurrentTitle);
-        // Timber.i("%s: saving title: %s", Constants.LOG_TAG, mCurrentTitle);
         outState.putBoolean(IS_UP_VISIBLE, mIsUpVisible);
     }
 
@@ -196,9 +195,9 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
+    // called from main fragment - set the title based on item clicked
     public void setPageTitle(String title) {
         mCurrentTitle = title;
-        //Timber.i("%s: clicked title %s", Constants.LOG_TAG, mCurrentTitle);
         if (!(mIsTablet && !mIsPortrait)) {
             setTitle(mCurrentTitle);
         }
@@ -259,6 +258,7 @@ public class MainActivity extends AppCompatActivity{
 
         // highlight the selected item & update the page title
         item.setChecked(true);
+        // USED BY NAV DRAWER ITEMS
 //        switch (item.getTitle().toString()) {
 //            case "Home":
 //                mCurrentTitle = getString(R.string.nav_menu_title_home);
@@ -300,6 +300,7 @@ public class MainActivity extends AppCompatActivity{
     private void displayInitialFragment() {
         mCurrentTitle = getString(R.string.nav_menu_title_home);
         setTitle(mCurrentTitle);
+        // USED WHEN MAIN ACTIVITY LOADS HOME & HOME DETAIL FRAGMENTS DIRECTLY
 //        if (mIsTablet) {
 //            // add the list fragment
 //            addFragmentToLayout(HomeFragment.newInstance(), true, true, mCurrentTitle);
@@ -342,6 +343,7 @@ public class MainActivity extends AppCompatActivity{
         }
     };
 
+    // USED WHEN MAIN ACTIVITY LOADS HOME & HOME DETAIL FRAGMENTS DIRECTLY
     private void addFragmentToLayout(Fragment fragment, boolean primary, boolean addToBackStack, String fragmentTag) {
         if (fragment == null) return;
 
