@@ -120,42 +120,6 @@ public class MainActivity extends AppCompatActivity{
             }
         }
 
-        // update the page title - USED BY NAV DRAWER ITEMS
-//        FragmentManager fm = getSupportFragmentManager();
-//        int count = fm.getBackStackEntryCount();
-//        if (count <= 1) {
-//            finish();
-//        } else{
-//            mCurrentTitle = fm.getBackStackEntryAt(count - 2).getName();
-//            if (mCurrentTitle.equals(DETAIL_PAGE_FRAGMENT)) {
-//                mCurrentTitle = "Home";
-//            }
-//        }
-//        super.onBackPressed();
-//        setTitle(mCurrentTitle);
-//        if (mIsUpVisible) {
-//            hideUpNav();
-//        }
-//
-//        // update nav drawer selection
-//        switch (mCurrentTitle) {
-//            case "Home":
-//                navigationView.setCheckedItem(R.id.drawer_home);
-//                break;
-//            case "Explore":
-//                navigationView.setCheckedItem(R.id.drawer_explore);
-//                break;
-//            case "Favourites":
-//                navigationView.setCheckedItem(R.id.drawer_favourite);
-//                break;
-//            case "Settings":
-//                navigationView.setCheckedItem(R.id.drawer_settings);
-//                break;
-//            case "About":
-//                navigationView.setCheckedItem(R.id.drawer_about);
-//                break;
-//        }
-
     }
 
     @Override
@@ -258,59 +222,12 @@ public class MainActivity extends AppCompatActivity{
 
         // highlight the selected item & update the page title
         item.setChecked(true);
-        // USED BY NAV DRAWER ITEMS
-//        switch (item.getTitle().toString()) {
-//            case "Home":
-//                mCurrentTitle = getString(R.string.nav_menu_title_home);
-//                break;
-//            case "Explore":
-//                mCurrentTitle = getString(R.string.nav_menu_title_explore);
-//                break;
-//            case "Favourites":
-//                mCurrentTitle = getString(R.string.nav_menu_title_favourite);
-//                break;
-//            case "Settings":
-//                mCurrentTitle = getString(R.string.nav_menu_title_settings);
-//                break;
-//            case "About":
-//                mCurrentTitle = getString(R.string.nav_menu_title_about);
-//                break;
-//            default:
-//                mCurrentTitle = getString(R.string.nav_menu_title_home);
-//        }
-
-        // clear the back stack if adding home fragment again
-//        FragmentManager fm = getSupportFragmentManager();
-//        int count = fm.getBackStackEntryCount();
-//        if (count > 1 && fragmentClass == HomeFragment.class) {
-//            fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-//        }
-
-        // hide up arrow and pop stack if home fragment is visible
-//        if (mIsUpVisible) {
-//            hideUpNav();
-//            getSupportFragmentManager().popBackStackImmediate();
-//        }
-        // addFragmentToLayout(fragment, true, true, mCurrentTitle);
-        // setTitle(mCurrentTitle); // display title on toolbar
-
         mDrawer.closeDrawers();
     }
 
     private void displayInitialFragment() {
         mCurrentTitle = getString(R.string.nav_menu_title_home);
         setTitle(mCurrentTitle);
-        // USED WHEN MAIN ACTIVITY LOADS HOME & HOME DETAIL FRAGMENTS DIRECTLY
-//        if (mIsTablet) {
-//            // add the list fragment
-//            addFragmentToLayout(HomeFragment.newInstance(), true, true, mCurrentTitle);
-//
-//            // add detail fragment - display the initial item
-//            addFragmentToLayout(HomeDetailFragment.newInstance(0), false, true, DETAIL_PAGE_FRAGMENT);
-//        } else {
-//            // otherwise on phone, add the list fragment
-//            addFragmentToLayout(HomeFragment.newInstance(), true, true, mCurrentTitle);
-//        }
 
         // load the container fragment which hosts the list/detail fragments
         // depending on whether the device is a phone or tablet
@@ -342,34 +259,5 @@ public class MainActivity extends AppCompatActivity{
             onBackPressed();
         }
     };
-
-    // USED WHEN MAIN ACTIVITY LOADS HOME & HOME DETAIL FRAGMENTS DIRECTLY
-    private void addFragmentToLayout(Fragment fragment, boolean primary, boolean addToBackStack, String fragmentTag) {
-        if (fragment == null) return;
-
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction(); // TODO add animation
-        if (mIsTablet) {
-            if (primary) {
-                if (addToBackStack) {
-                    ft.replace(R.id.fragment_container, fragment).addToBackStack(fragmentTag).commit();
-                } else {
-                    ft.replace(R.id.fragment_container,fragment).commit();
-                }
-            } else {
-                if (addToBackStack) {
-                    ft.replace(R.id.detail_pane, fragment).addToBackStack(fragmentTag).commit();
-                } else {
-                    ft.replace(R.id.detail_pane, fragment).commit();
-                }
-            }
-        } else {
-            if (addToBackStack) {
-                ft.replace(R.id.fragment_container, fragment).addToBackStack(fragmentTag).commit();
-            } else {
-                ft.replace(R.id.fragment_container,fragment).commit();
-            }
-        }
-    }
-
 
 }

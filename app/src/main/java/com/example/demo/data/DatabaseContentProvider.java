@@ -12,6 +12,11 @@ import android.support.annotation.NonNull;
 import com.example.demo.R;
 import com.example.demo.data.DatabaseContract.Model;
 
+/**
+ * References:
+ * [1] Android 6 App Development Fundamentals I and II by Paul Deitel (AddressBook App)
+ *     Content Provider class allows the database to be accessed asynchronously
+ */
 @SuppressWarnings("ConstantConditions")
 public class DatabaseContentProvider extends ContentProvider{
 
@@ -20,6 +25,14 @@ public class DatabaseContentProvider extends ContentProvider{
     private static final int ALL_ITEMS = 2; // access to all records
     private DatabaseHelper mHelper; // used to access the database
 
+    // configure the URI's the ContentProvider can respond to, returning an integer constant
+    // which can be used to retrieve different record(s) based on the uri
+    static {
+        // return a record with the specified id
+        mUriMatcher.addURI(DatabaseContract.AUTHORITY, Model.TABLE_NAME + "/#", ONE_ITEM);
+        // return all table records
+        mUriMatcher.addURI(DatabaseContract.AUTHORITY, Model.TABLE_NAME, ALL_ITEMS);
+    }
 
     @Override
     public boolean onCreate() {
@@ -46,7 +59,7 @@ public class DatabaseContentProvider extends ContentProvider{
         // determine the specific record(s) to return
         switch(mUriMatcher.match(uri)) {
             case ONE_ITEM:
-                // the record's id is equal to last path segment
+                // append a where cause to return the record whose id is equal to last path segment
                 builder.appendWhere(Model._ID + "=" +uri.getLastPathSegment());
                 break;
             case ALL_ITEMS:
@@ -55,7 +68,7 @@ public class DatabaseContentProvider extends ContentProvider{
             default:
                 throw new UnsupportedOperationException(getContext().getString(R.string.invalid_query_uri) + uri);
         }
-        // execute the query, returning a cursor
+        // build & execute the query, returning a cursor
         Cursor cursor = builder.query(mHelper.getReadableDatabase(),
                                 projection, selection, args, null, null, sortOrder);
 
@@ -70,11 +83,12 @@ public class DatabaseContentProvider extends ContentProvider{
     public Uri insert(@NonNull Uri uri, ContentValues contentValues) {
         Uri newUri = null;
 
+        // the uri used will match that of the table, the record's uri is generated when the record is inserted
         switch (mUriMatcher.match(uri)) {
             case ALL_ITEMS: // will match the uri of the table
                 long rowId = mHelper.getWritableDatabase().insert(Model.TABLE_NAME, null, contentValues);
                 if (rowId > 0) {
-                    newUri = Model.buildItemUri(rowId);
+                    newUri = Model.buildItemUri(rowId); // generate the uri based on the record's id
 
                     // notify any registered observers that the database has changed
                     getContext().getContentResolver().notifyChange(uri, null);
@@ -84,6 +98,7 @@ public class DatabaseContentProvider extends ContentProvider{
                 }
                 break;
             default:
+                // uri not valid
                 throw new UnsupportedOperationException(getContext().getString(R.string.invalid_insert_uri) + uri);
         }
 
@@ -108,7 +123,7 @@ public class DatabaseContentProvider extends ContentProvider{
             default:
                 throw new UnsupportedOperationException(getContext().getString(R.string.invalid_update_uri) + uri);
         }
-        // notify any observers if the update is successful
+        // notify any observers that the database has been updated
         if (numberOfRowsUpdated != 0) {
             getContext().getContentResolver().notifyChange(uri, null);
         }

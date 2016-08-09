@@ -5,6 +5,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import static com.example.demo.data.DatabaseContract.Model;
 
+/**
+ * References:
+ * [1] Android 6 App Development Fundamentals I and II by Paul Deitel (AddressBook App)
+ */
 public class DatabaseHelper extends SQLiteOpenHelper{
 
     private static final String DATABASE_NAME = "model_database";

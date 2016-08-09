@@ -4,6 +4,10 @@ import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+/**
+ * References:
+ * [1] Android 6 App Development Fundamentals I and II by Paul Deitel (AddressBook App)
+ */
 public class DatabaseContract {
 
     // identify the content provider
