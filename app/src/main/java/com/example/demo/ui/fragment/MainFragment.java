@@ -1,5 +1,6 @@
 package com.example.demo.ui.fragment;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,11 +18,10 @@ import timber.log.Timber;
 public class MainFragment extends Fragment implements MainActivity.onBackPressedListener{
 
     private static final String IS_DETAIL_SHOWING = "is_detail_showing";
-    private static final String DETAIL_ITEM_POSITION = "detail_item_position";
     private boolean mIsTablet = false;
     private boolean mIsPortrait = false;
     private boolean mIsDetailShowing = false;
-    private int mDetailItemPosition = 0;
+    private Uri mItemUri = null;
 
     public MainFragment() {}
 
@@ -35,16 +35,16 @@ public class MainFragment extends Fragment implements MainActivity.onBackPressed
         mIsTablet = getResources().getBoolean(R.bool.isTablet);
         mIsPortrait = getResources().getBoolean(R.bool.isPortrait);
         if (savedInstanceState != null) {
+            mItemUri = savedInstanceState.getParcelable(Constants.MODEL_ITEM_URI);
             mIsDetailShowing = savedInstanceState.getBoolean(IS_DETAIL_SHOWING);
-            mDetailItemPosition = savedInstanceState.getInt(DETAIL_ITEM_POSITION);
         }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        outState.putParcelable(Constants.MODEL_ITEM_URI, mItemUri);
         outState.putBoolean(IS_DETAIL_SHOWING, mIsDetailShowing);
-        outState.putInt(DETAIL_ITEM_POSITION, mDetailItemPosition);
     }
 
     @Nullable
@@ -65,9 +65,9 @@ public class MainFragment extends Fragment implements MainActivity.onBackPressed
 
         if (mIsDetailShowing) {
             if (mIsTablet && !mIsPortrait) {
-                showSecondaryFragment(HomeDetailFragment.newInstance(mDetailItemPosition), false, null, false);
+                showSecondaryFragment(HomeDetailFragment.newInstance(mItemUri), false, null, false);
             } else {
-                showPrimaryFragment(HomeDetailFragment.newInstance(mDetailItemPosition), false, null, false);
+                showPrimaryFragment(HomeDetailFragment.newInstance(mItemUri), false, null, false);
             }
         }
     }
@@ -92,27 +92,30 @@ public class MainFragment extends Fragment implements MainActivity.onBackPressed
     }
 
 
-    // called by the child home fragment
-    protected void listItemClick(int position, String title) {
+    // called by the child HomeFragment
+    protected void listItemClick(Uri uri) {
         mIsDetailShowing = true;
-        mDetailItemPosition = position;
+        mItemUri = uri;
 
         if (mIsTablet && !mIsPortrait) { // tablet in landscape
-            showSecondaryFragment(HomeDetailFragment.newInstance(mDetailItemPosition), false, null, true);
+            showSecondaryFragment(HomeDetailFragment.newInstance(mItemUri), false, null, true);
         } else {
-            showPrimaryFragment(HomeDetailFragment.newInstance(mDetailItemPosition), false, null, true);
+            showPrimaryFragment(HomeDetailFragment.newInstance(mItemUri), false, null, true);
         }
 
         // tell the hosting activity to show the 'up arrow' on devices other than tablets in landscape orientation
         ((MainActivity)getActivity()).showUpNav();
-        // update the page title
+    }
+
+    // called by the child HomeDetailFragment
+    protected void setPageTitle(String title) {
         ((MainActivity)getActivity()).setPageTitle(title);
     }
 
     private void showTabletView() {
         // Timber.i("%s, tablet landscape, isTablet: %s, isPortrait: %s, detailPosition: %d", Constants.LOG_TAG, mIsTablet, mIsPortrait, mDetailItemPosition);
         showPrimaryFragment(HomeFragment.newInstance(), true, "home", false);
-        showSecondaryFragment(HomeDetailFragment.newInstance(mDetailItemPosition), false, null, false);
+        showSecondaryFragment(HomeDetailFragment.newInstance(mItemUri), false, null, false);
     }
 
     private void showPhoneView() {
