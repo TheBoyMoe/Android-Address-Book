@@ -11,10 +11,14 @@ import android.widget.TextView;
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.example.demo.R;
+import com.example.demo.data.adapter.ChoiceCapableAdapter;
+import com.example.demo.data.adapter.SingleChoiceMode;
 
 import java.util.List;
 
-public class ModelItemAdapter extends RecyclerView.Adapter<ModelItemAdapter.ViewHolder>{
+import timber.log.Timber;
+
+public class ModelItemAdapter extends ChoiceCapableAdapter<ModelItemAdapter.ViewHolder>{
 
     // interface implemented by HomeFragment to respond to
     // user clicking on an item in the recycler view
@@ -25,7 +29,8 @@ public class ModelItemAdapter extends RecyclerView.Adapter<ModelItemAdapter.View
     private ModelItemClickListener mListener;
     private List<ModelItem> mItems;
 
-    public ModelItemAdapter(List<ModelItem> items, ModelItemClickListener listener) {
+    public ModelItemAdapter(RecyclerView recyclerView, List<ModelItem> items, ModelItemClickListener listener) {
+        super(recyclerView, new SingleChoiceMode());
         mItems = items;
         mListener = listener;
     }
@@ -33,7 +38,7 @@ public class ModelItemAdapter extends RecyclerView.Adapter<ModelItemAdapter.View
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(this, view);
     }
 
     @Override
@@ -48,13 +53,17 @@ public class ModelItemAdapter extends RecyclerView.Adapter<ModelItemAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
+        ChoiceCapableAdapter mAdapter;
+        View mItemView;
         ImageView mIcon;
         TextView mName;
         TextView mAddress;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(ChoiceCapableAdapter adapter, View itemView) {
             super(itemView);
-            itemView.setOnClickListener(this);
+            mAdapter = adapter;
+            mItemView = itemView;
+            mItemView.setOnClickListener(this);
             mIcon = (ImageView) itemView.findViewById(R.id.model_icon);
             mName = (TextView) itemView.findViewById(R.id.model_name);
             mAddress = (TextView) itemView.findViewById(R.id.model_address);
@@ -68,12 +77,24 @@ public class ModelItemAdapter extends RecyclerView.Adapter<ModelItemAdapter.View
             TextDrawable letterDrawable = TextDrawable.builder()
                     .buildRound(String.valueOf(item.getName().charAt(0)), generator.getRandomColor());
             mIcon.setImageDrawable(letterDrawable);
+
+            setChecked(mAdapter.isChecked(getAdapterPosition()));
         }
 
         @Override
         public void onClick(View view) {
+            // handle checked status
+            boolean isCheckedNow = mAdapter.isChecked(getAdapterPosition());
+            // whatever item's checked state, reverse it
+            mAdapter.onChecked(getAdapterPosition(), !isCheckedNow);
+            mItemView.setActivated(!isCheckedNow);
+
             // propagate upto fragment
             mListener.onClick(getAdapterPosition());
+        }
+
+        public void setChecked(boolean isChecked) {
+            mItemView.setActivated(isChecked);
         }
 
     }

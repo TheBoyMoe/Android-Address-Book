@@ -54,7 +54,7 @@ public class HomeFragment extends Fragment{
                 ((MainFragment)getParentFragment()).listItemClick(position, items.get(position).getName());
             }
         };
-        ModelItemAdapter adapter = new ModelItemAdapter(items, itemClickListener);
+        ModelItemAdapter adapter = new ModelItemAdapter(recyclerView, items, itemClickListener);
         recyclerView.setAdapter(adapter);
 
         return view;
