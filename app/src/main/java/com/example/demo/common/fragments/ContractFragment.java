@@ -1,10 +1,10 @@
-package com.example.demo.common;
+package com.example.demo.common.fragments;
 
 import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 
-public class ContractFragment<T> extends Fragment{
+public class ContractFragment<T> extends BaseModelItemFragment{
 
     private T mContract;
 

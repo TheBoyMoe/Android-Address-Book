@@ -1,4 +1,4 @@
-package com.example.demo.common;
+package com.example.demo.common.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

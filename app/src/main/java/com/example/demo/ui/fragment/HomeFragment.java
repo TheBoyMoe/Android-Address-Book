@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,16 +16,9 @@ import android.view.ViewGroup;
 
 import com.example.demo.R;
 import com.example.demo.common.Constants;
-import com.example.demo.common.ContractFragment;
 import com.example.demo.common.CustomItemDecoration;
 import com.example.demo.data.DatabaseContract;
-import com.example.demo.data.ModelItem;
 import com.example.demo.data.ModelItemAdapter;
-import com.example.demo.data.ModelItemData;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import timber.log.Timber;
 
@@ -78,7 +70,6 @@ public class HomeFragment extends Fragment implements LoaderManager.LoaderCallba
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        // CHECK fragment hosted by MainFragment - is this method called?
         // initialize the cursor loader when the hosting activity is created
         getLoaderManager().initLoader(MODEL_ITEM_LOADER, null, this);
         Timber.i("%s Cursor Loader initialized", Constants.LOG_TAG);
@@ -89,7 +80,7 @@ public class HomeFragment extends Fragment implements LoaderManager.LoaderCallba
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         switch (id) {
             case MODEL_ITEM_LOADER:
-                return new CursorLoader(getActivity(), // CHECK
+                return new CursorLoader(getActivity(),
                         DatabaseContract.Model.CONTENT_URI,
                         null,
                         null,

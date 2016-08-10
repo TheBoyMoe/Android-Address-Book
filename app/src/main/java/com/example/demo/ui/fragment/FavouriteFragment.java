@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.example.demo.R;
-import com.example.demo.common.BaseFragment;
+import com.example.demo.common.fragments.BaseFragment;
 
 public class FavouriteFragment extends BaseFragment{
 
