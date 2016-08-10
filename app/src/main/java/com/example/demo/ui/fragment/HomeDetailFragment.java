@@ -8,15 +8,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+
 import com.example.demo.R;
 import com.example.demo.common.Constants;
+import com.example.demo.common.Utils;
 import com.example.demo.data.DatabaseContract;
 import com.example.demo.data.ModelItemData;
 
@@ -26,6 +29,7 @@ public class HomeDetailFragment extends Fragment implements LoaderManager.Loader
 
     private static final int MODEL_ITEM_LOADER = 0;
 
+    private Toolbar mItemToolbar;
     private Uri mItemUri;
     private ImageView mBackdrop;
     private TextView mName;
@@ -48,6 +52,12 @@ public class HomeDetailFragment extends Fragment implements LoaderManager.Loader
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.list_item_detail, container, false);
+        mItemToolbar = (Toolbar) view.findViewById(R.id.model_item_toolbar);
+        if (mItemToolbar != null) {
+            mItemToolbar.inflateMenu(R.menu.menu_item);
+            mItemToolbar.setOnMenuItemClickListener(menuClickListener);
+        }
+
         mBackdrop = (ImageView) view.findViewById(R.id.item_backdrop);
         mName = (TextView) view.findViewById(R.id.item_name);
         mAddress = (TextView) view.findViewById(R.id.item_address);
@@ -60,8 +70,37 @@ public class HomeDetailFragment extends Fragment implements LoaderManager.Loader
             // initialize the loader
             getLoaderManager().initLoader(MODEL_ITEM_LOADER, null, this);
         }
-
         return view;
+    }
+
+    Toolbar.OnMenuItemClickListener menuClickListener = new Toolbar.OnMenuItemClickListener() {
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.action_edit:
+                    Utils.showToast(getActivity(), "Clicked on edit");
+                    return true;
+                case R.id.action_delete:
+                    Utils.showToast(getActivity(), "Clicked on delete");
+                    return true;
+                default:
+                    return true;
+            }
+        }
+    };
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_edit:
+
+                return true;
+            case R.id.action_delete:
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 
