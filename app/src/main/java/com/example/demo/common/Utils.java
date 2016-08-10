@@ -90,10 +90,10 @@ public class Utils {
     public static ContentValues setModelItemValues(String name, String address, String url, String email, String phone) {
         ContentValues values = new ContentValues();
         values.put(Constants.MODEL_ITEM_NAME, name);
-        values.put(Constants.MODEL_ITEM_ADDRESS, address != null ? name : "");
-        values.put(Constants.MODEL_ITEM_URL, url != null ? address : "");
-        values.put(Constants.MODEL_ITEM_EMAIL, email != null ? email : "");
-        values.put(Constants.MODEL_ITEM_PHONE, phone != null ? phone : "");
+        values.put(Constants.MODEL_ITEM_ADDRESS, address);
+        values.put(Constants.MODEL_ITEM_URL, url);
+        values.put(Constants.MODEL_ITEM_EMAIL, email);
+        values.put(Constants.MODEL_ITEM_PHONE, phone);
         return values;
     }
 

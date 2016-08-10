@@ -3,6 +3,8 @@ package com.example.demo.ui.fragment;
 import android.content.ContentValues;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,16 +14,19 @@ import android.widget.ImageView;
 
 
 import com.example.demo.R;
+import com.example.demo.common.Constants;
 import com.example.demo.common.ContractFragment;
 import com.example.demo.common.Utils;
 
+import timber.log.Timber;
+
 public class ModelItemFragment extends ContractFragment<ModelItemFragment.Contract>{
 
-    private EditText mName;
-    private EditText mAddress;
-    private EditText mUrl;
-    private EditText mEmail;
-    private EditText mPhone;
+    private TextInputLayout mName;
+    private TextInputLayout mAddress;
+    private TextInputLayout mUrl;
+    private TextInputLayout mEmail;
+    private TextInputLayout mPhone;
 
     public interface Contract {
         void saveModelItem(ContentValues values);
@@ -44,26 +49,27 @@ public class ModelItemFragment extends ContractFragment<ModelItemFragment.Contra
             toolbar.setNavigationOnClickListener(navigationOnClickListener);
         }
         ImageView backdrop = (ImageView) view.findViewById(R.id.item_backdrop);
-        mName = (EditText) view.findViewById(R.id.model_item_name);
-        mAddress = (EditText) view.findViewById(R.id.model_item_address);
-        mUrl = (EditText) view.findViewById(R.id.model_item_url);
-        mEmail = (EditText) view.findViewById(R.id.model_item_email);
-        mPhone = (EditText) view.findViewById(R.id.model_item_phone);
+        mName = (TextInputLayout) view.findViewById(R.id.name_input_layout);
+        mAddress = (TextInputLayout) view.findViewById(R.id.address_input_layout);
+        mUrl = (TextInputLayout) view.findViewById(R.id.url_input_layout);
+        mEmail = (TextInputLayout) view.findViewById(R.id.email_input_layout);
+        mPhone = (TextInputLayout) view.findViewById(R.id.phone_layout_input);
 
         return view;
     }
 
     View.OnClickListener navigationOnClickListener = new View.OnClickListener() {
+        @SuppressWarnings("ConstantConditions")
         @Override
         public void onClick(View view) {
-            String name = mName.getText().toString();
-            if (name.isEmpty()) {
+            String name = (mName.getEditText().getText() != null) ? mName.getEditText().getText().toString() : "";
+            if (!name.isEmpty()) {
                 ContentValues values = Utils.setModelItemValues(
                         name,
-                        mAddress.getText().toString(),
-                        mUrl.getText().toString(),
-                        mEmail.getText().toString(),
-                        mPhone.getText().toString()
+                        mAddress.getEditText().getText() != null ? mAddress.getEditText().getText().toString() : "",
+                        mUrl.getEditText().getText() != null ? mUrl.getEditText().getText().toString() : "",
+                        mEmail.getEditText().getText() != null ? mEmail.getEditText().getText().toString() : "",
+                        mPhone.getEditText().getText() != null ? mPhone.getEditText().getText().toString() : ""
                 );
                 getContract().saveModelItem(values);
             } else {
@@ -74,3 +80,4 @@ public class ModelItemFragment extends ContractFragment<ModelItemFragment.Contra
 
 
 }
+
