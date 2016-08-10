@@ -30,6 +30,15 @@
         <item name="android:windowBackground">@drawable/splash_background</item>
     </style>
 
+    <!-- ModelItem Activity Theme -->
+    <style name="AppThemeWhenLarge" parent="Theme.AppCompat.Light.DialogWhenLarge">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <!-- fab theme -->
     <style name="FabTheme">
         <item name="android:layout_width">wrap_content</item>

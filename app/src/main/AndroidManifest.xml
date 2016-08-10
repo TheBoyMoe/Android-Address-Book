@@ -29,7 +29,7 @@
 
         <activity
             android:name=".ui.activity.ModelItemActivity"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/AppThemeWhenLarge"
             android:parentActivityName=".ui.activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
