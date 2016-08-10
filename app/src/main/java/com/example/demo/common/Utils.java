@@ -1,11 +1,16 @@
 package com.example.demo.common;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.IBinder;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
@@ -13,6 +18,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.demo.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -68,5 +74,28 @@ public class Utils {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(view);
     }
+
+    public static void setupToolbar(Activity activity, Toolbar toolbar) {
+        ((AppCompatActivity)activity).setSupportActionBar(toolbar);
+        ActionBar actionBar = ((AppCompatActivity)activity).getSupportActionBar();
+        if (actionBar != null) {
+            // hide title by default
+            actionBar.setDisplayShowTitleEnabled(false);
+            // set navigation icon & toolbar background color
+            toolbar.setNavigationIcon(R.drawable.ic_back_dark);
+            toolbar.setBackgroundColor(ContextCompat.getColor(activity, android.R.color.transparent));
+        }
+    }
+
+    public static ContentValues setModelItemValues(String name, String address, String url, String email, String phone) {
+        ContentValues values = new ContentValues();
+        values.put(Constants.MODEL_ITEM_NAME, name);
+        values.put(Constants.MODEL_ITEM_ADDRESS, address != null ? name : "");
+        values.put(Constants.MODEL_ITEM_URL, url != null ? address : "");
+        values.put(Constants.MODEL_ITEM_EMAIL, email != null ? email : "");
+        values.put(Constants.MODEL_ITEM_PHONE, phone != null ? phone : "");
+        return values;
+    }
+
 
 }

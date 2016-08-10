@@ -19,5 +19,9 @@
     <string name="invalid_delete_uri">Invalid delete uri</string>
     <string name="drawer_open">Open drawer</string>
     <string name="drawer_close">Close drawer</string>
+    <string name="hint_enter_name">Name required</string>
+    <string name="hint_enter_address">Enter address</string>
+    <string name="hint_enter_email">Enter email</string>
+    <string name="hint_enter_phone">Enter phone number</string>
 
 </resources>

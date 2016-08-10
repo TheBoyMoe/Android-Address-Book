@@ -172,7 +172,8 @@ public class MainActivity extends AppCompatActivity{
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Utils.showSnackbar(mLayout, "Clicked fab");
+                // Utils.showSnackbar(mLayout, "Clicked fab");
+                ModelItemActivity.launch(MainActivity.this);
             }
         });
     }

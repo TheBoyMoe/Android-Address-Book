@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/toolbar"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:padding="@dimen/normal"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Name -->
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/name_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/model_item_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_enter_name"
+                    android:imeOptions="actionNext"
+                    android:inputType="textCapWords|textPersonName"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- Address -->
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/address_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/model_item_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_enter_address"
+                    android:imeOptions="actionNext"
+                    android:inputType="textCapWords|textPostalAddress"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- Url -->
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/url_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/model_item_url"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_enter_address"
+                    android:imeOptions="actionNext"
+                    android:inputType="textUri|textWebEditText"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- Email -->
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/email_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/model_item_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_enter_email"
+                    android:imeOptions="actionNext"
+                    android:inputType="textEmailAddress"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- Phone -->
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/phone_layout_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/model_item_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_enter_phone"
+                    android:imeOptions="actionDone"
+                    android:inputType="phone"/>
+            </android.support.design.widget.TextInputLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

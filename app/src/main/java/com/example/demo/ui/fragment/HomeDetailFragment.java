@@ -55,8 +55,10 @@ public class HomeDetailFragment extends Fragment implements LoaderManager.Loader
         mPhone = (TextView) view.findViewById(R.id.item_phone);
 
         mItemUri = getArguments().getParcelable(Constants.MODEL_ITEM_URI);
-        // initialize the loader
-        getLoaderManager().initLoader(MODEL_ITEM_LOADER, null, this);
+        if (mItemUri != null) {
+            // initialize the loader
+            getLoaderManager().initLoader(MODEL_ITEM_LOADER, null, this);
+        }
 
         return view;
     }
