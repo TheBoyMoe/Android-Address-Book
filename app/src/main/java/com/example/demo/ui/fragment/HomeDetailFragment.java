@@ -82,13 +82,15 @@ public class HomeDetailFragment extends Fragment implements LoaderManager.Loader
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
+        data.moveToFirst();
+
         // update the ActionBar Title
         String name = data.getString(data.getColumnIndex(DatabaseContract.Model.COLUMN_NAME));
         ((MainFragment)getParentFragment()).setPageTitle(name);
 
         // populate layout elements
         Random generator = new Random();
-        mBackdrop.setImageResource(ModelItemData.getImageDrawable(Math.round(generator.nextInt(8))));
+        mBackdrop.setImageResource(ModelItemData.getImageDrawable(generator.nextInt(8)));
         mName.setText(name);
         mAddress.setText(data.getString(data.getColumnIndex(DatabaseContract.Model.COLUMN_ADDRESS)));
         mUrl.setText(data.getString(data.getColumnIndex(DatabaseContract.Model.COLUMN_URL)));
