@@ -11,7 +11,7 @@ import android.provider.BaseColumns;
 public class DatabaseContract {
 
     // identify the content provider
-    public static final String AUTHORITY = "com.example.demo.model";
+    public static final String AUTHORITY = "com.example.demo.data";
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + AUTHORITY);
 
     // define database table and column names (base columns adds _id column, used ti identify each record)

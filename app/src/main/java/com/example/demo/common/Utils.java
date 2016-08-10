@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.demo.R;
+import com.example.demo.data.DatabaseContract;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -89,11 +90,11 @@ public class Utils {
 
     public static ContentValues setModelItemValues(String name, String address, String url, String email, String phone) {
         ContentValues values = new ContentValues();
-        values.put(Constants.MODEL_ITEM_NAME, name);
-        values.put(Constants.MODEL_ITEM_ADDRESS, address);
-        values.put(Constants.MODEL_ITEM_URL, url);
-        values.put(Constants.MODEL_ITEM_EMAIL, email);
-        values.put(Constants.MODEL_ITEM_PHONE, phone);
+        values.put(DatabaseContract.Model.COLUMN_NAME, name);
+        values.put(DatabaseContract.Model.COLUMN_ADDRESS, address);
+        values.put(DatabaseContract.Model.COLUMN_URL, url);
+        values.put(DatabaseContract.Model.COLUMN_EMAIL, email);
+        values.put(DatabaseContract.Model.COLUMN_PHONE, phone);
         return values;
     }
 

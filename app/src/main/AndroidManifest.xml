@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:tools="http://schemas.android.com/tools" package="com.example.demo"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:tools="http://schemas.android.com/tools"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        package="com.example.demo">
 
     <application
         android:allowBackup="true"
@@ -35,6 +36,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.MainActivity"/>
         </activity>
+
+        <provider
+            android:authorities="com.example.demo.data"
+            android:name=".data.DatabaseContentProvider"
+            android:enabled="true"
+            android:exported="false"/>
 
     </application>
 
