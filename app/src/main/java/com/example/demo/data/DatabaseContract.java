@@ -26,7 +26,8 @@ public class DatabaseContract {
         public static final String COLUMN_URL = "url";
         public static final String COLUMN_EMAIL = "email";
         public static final String COLUMN_PHONE = "phone";
-
+        public static final String COLUMN_BACKDROP = "backdrop";
+        public static final String COLUMN_COLOR = "color";
 
         // identify the table
         public static final Uri CONTENT_URI =

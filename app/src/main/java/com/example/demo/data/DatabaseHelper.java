@@ -28,7 +28,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 + Model.COLUMN_ADDRESS + " TEXT, "
                 + Model.COLUMN_URL + " TEXT, "
                 + Model.COLUMN_EMAIL + " TEXT, "
-                + Model.COLUMN_PHONE + " TEXT);";
+                + Model.COLUMN_PHONE + " TEXT, "
+                + Model.COLUMN_BACKDROP + " INTEGER, "
+                + Model.COLUMN_COLOR + " INTEGER);";
         db.execSQL(CREATE_MODEL_TABLE);
     }
 

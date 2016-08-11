@@ -86,10 +86,8 @@ public class ModelItemAdapter extends ChoiceCapableAdapter<ModelItemAdapter.View
             String name = cursor.getString(cursor.getColumnIndex(Model.COLUMN_NAME));
             mName.setText(name);
             mAddress.setText(cursor.getString(cursor.getColumnIndex(Model.COLUMN_ADDRESS)));
-            // generate image drawable
-            ColorGenerator generator = ColorGenerator.MATERIAL;
-            TextDrawable letterDrawable = TextDrawable.builder()
-                    .buildRound(String.valueOf(name.charAt(0)), generator.getRandomColor());
+            int color = cursor.getInt(cursor.getColumnIndex(Model.COLUMN_COLOR));
+            TextDrawable letterDrawable = TextDrawable.builder().buildRound(String.valueOf(name.charAt(0)), color);
             mIcon.setImageDrawable(letterDrawable);
 
             setChecked(mAdapter.isChecked(getAdapterPosition())); // ??

@@ -9,8 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.example.demo.R;
 import com.example.demo.common.Utils;
+import com.example.demo.data.ModelItemData;
+
+import java.util.Random;
 
 public class BaseModelItemFragment extends Fragment{
 
@@ -37,14 +41,20 @@ public class BaseModelItemFragment extends Fragment{
 
     @SuppressWarnings("ConstantConditions")
     protected ContentValues getEditTextValues() {
+        // generate random backdrop image, save with item
+        Random generator = new Random();
+        int image = ModelItemData.getImageDrawable(generator.nextInt(8));
+        // generate material color , save with item
+        ColorGenerator colorGenerator = ColorGenerator.MATERIAL;
+        int color = colorGenerator.getRandomColor();
+
         return Utils.setModelItemValues(
                 mName.getEditText().getText() != null ? mName.getEditText().getText().toString() : "",
                 mAddress.getEditText().getText() != null ? mAddress.getEditText().getText().toString() : "",
                 mUrl.getEditText().getText() != null ? mUrl.getEditText().getText().toString() : "",
                 mEmail.getEditText().getText() != null ? mEmail.getEditText().getText().toString() : "",
-                mPhone.getEditText().getText() != null ? mPhone.getEditText().getText().toString() : ""
-        );
-
+                mPhone.getEditText().getText() != null ? mPhone.getEditText().getText().toString() : "",
+                image, color);
     }
 
 

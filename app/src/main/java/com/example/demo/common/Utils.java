@@ -88,13 +88,16 @@ public class Utils {
         }
     }
 
-    public static ContentValues setModelItemValues(String name, String address, String url, String email, String phone) {
+    public static ContentValues setModelItemValues(String name,
+              String address, String url, String email, String phone, int backdrop, int color) {
         ContentValues values = new ContentValues();
         values.put(DatabaseContract.Model.COLUMN_NAME, name);
         values.put(DatabaseContract.Model.COLUMN_ADDRESS, address);
         values.put(DatabaseContract.Model.COLUMN_URL, url);
         values.put(DatabaseContract.Model.COLUMN_EMAIL, email);
         values.put(DatabaseContract.Model.COLUMN_PHONE, phone);
+        values.put(DatabaseContract.Model.COLUMN_BACKDROP, backdrop);
+        values.put(DatabaseContract.Model.COLUMN_COLOR, color);
         return values;
     }
 

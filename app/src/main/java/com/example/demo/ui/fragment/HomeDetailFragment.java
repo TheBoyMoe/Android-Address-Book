@@ -124,14 +124,13 @@ public class HomeDetailFragment extends Fragment implements LoaderManager.Loader
         ((MainFragment)getParentFragment()).setPageTitle(name);
 
         // populate layout elements
-        Random generator = new Random();
         mDetailContainer.setVisibility(View.VISIBLE);
-        mBackdrop.setImageResource(ModelItemData.getImageDrawable(generator.nextInt(8)));
         mName.setText(name);
         mAddress.setText(data.getString(data.getColumnIndex(DatabaseContract.Model.COLUMN_ADDRESS)));
         mUrl.setText(data.getString(data.getColumnIndex(DatabaseContract.Model.COLUMN_URL)));
         mEmail.setText(data.getString(data.getColumnIndex(DatabaseContract.Model.COLUMN_EMAIL)));
         mPhone.setText(data.getString(data.getColumnIndex(DatabaseContract.Model.COLUMN_PHONE)));
+        mBackdrop.setImageResource(data.getInt(data.getColumnIndex(DatabaseContract.Model.COLUMN_BACKDROP)));
     }
 
     @Override
