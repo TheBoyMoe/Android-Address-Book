@@ -25,12 +25,15 @@ import com.example.demo.data.ModelItemData;
 
 import java.util.Random;
 
+import timber.log.Timber;
+
 public class HomeDetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
     private static final int MODEL_ITEM_LOADER = 0;
 
     private Toolbar mItemToolbar;
     private Uri mItemUri;
+    private View mDetailContainer;
     private ImageView mBackdrop;
     private TextView mName;
     private TextView mAddress;
@@ -58,6 +61,7 @@ public class HomeDetailFragment extends Fragment implements LoaderManager.Loader
             mItemToolbar.setOnMenuItemClickListener(menuClickListener);
         }
 
+        mDetailContainer = view.findViewById(R.id.detail_container);
         mBackdrop = (ImageView) view.findViewById(R.id.item_backdrop);
         mName = (TextView) view.findViewById(R.id.item_name);
         mAddress = (TextView) view.findViewById(R.id.item_address);
@@ -67,8 +71,12 @@ public class HomeDetailFragment extends Fragment implements LoaderManager.Loader
 
         mItemUri = getArguments().getParcelable(Constants.MODEL_ITEM_URI);
         if (mItemUri != null) {
+            mDetailContainer.setVisibility(View.VISIBLE);
             // initialize the loader
             getLoaderManager().initLoader(MODEL_ITEM_LOADER, null, this);
+        } else {
+            mDetailContainer.setVisibility(View.INVISIBLE);
+            Timber.i("%s: mItemUri: null", Constants.LOG_TAG);
         }
         return view;
     }
@@ -80,30 +88,17 @@ public class HomeDetailFragment extends Fragment implements LoaderManager.Loader
                 case R.id.action_edit:
                     Utils.showToast(getActivity(), "Clicked on edit");
                     return true;
-                case R.id.action_delete:
-                    Utils.showToast(getActivity(), "Clicked on delete");
-                    return true;
+                // case R.id.action_delete:
+                //    Utils.showToast(getActivity(), "Clicked on delete");
+                //    return true;
                 default:
                     return true;
             }
         }
     };
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_edit:
 
-                return true;
-            case R.id.action_delete:
-
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-
+    // LoaderCallback impl
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         // retrieve the record, returning a cursor
@@ -130,6 +125,7 @@ public class HomeDetailFragment extends Fragment implements LoaderManager.Loader
 
         // populate layout elements
         Random generator = new Random();
+        mDetailContainer.setVisibility(View.VISIBLE);
         mBackdrop.setImageResource(ModelItemData.getImageDrawable(generator.nextInt(8)));
         mName.setText(name);
         mAddress.setText(data.getString(data.getColumnIndex(DatabaseContract.Model.COLUMN_ADDRESS)));
