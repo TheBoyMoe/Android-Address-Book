@@ -7,12 +7,14 @@ import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.example.demo.R;
+import com.example.demo.common.Constants;
 import com.example.demo.data.adapter.ChoiceCapableAdapter;
 import com.example.demo.data.adapter.SingleChoiceMode;
 
@@ -28,6 +30,7 @@ public class ModelItemAdapter extends ChoiceCapableAdapter<ModelItemAdapter.View
     // user clicking on an item in the recycler view
     public interface ModelItemClickListener {
         void onClick(Uri modelItem);
+        void onLongClick(Uri modelItem);
     }
 
     private Cursor mCursor = null;
@@ -63,7 +66,8 @@ public class ModelItemAdapter extends ChoiceCapableAdapter<ModelItemAdapter.View
         notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements
+            View.OnClickListener, View.OnLongClickListener{
 
         ChoiceCapableAdapter mAdapter;
         View mItemView;
@@ -77,6 +81,7 @@ public class ModelItemAdapter extends ChoiceCapableAdapter<ModelItemAdapter.View
             mAdapter = adapter;
             mItemView = itemView;
             mItemView.setOnClickListener(this);
+            mItemView.setOnLongClickListener(this);
             mIcon = (ImageView) itemView.findViewById(R.id.model_icon);
             mName = (TextView) itemView.findViewById(R.id.model_name);
             mAddress = (TextView) itemView.findViewById(R.id.model_address);
@@ -101,8 +106,15 @@ public class ModelItemAdapter extends ChoiceCapableAdapter<ModelItemAdapter.View
             mAdapter.onChecked(getAdapterPosition(), !isCheckedNow);
             mItemView.setActivated(!isCheckedNow);
 
-            // propagate upto fragment
+            // propagate click upto fragment
             mListener.onClick(Model.buildItemUri(mRowId));
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            // propagate long click upto the fragment
+            mListener.onLongClick(Model.buildItemUri(mRowId));
+            return true;
         }
 
         public void setChecked(boolean isChecked) {

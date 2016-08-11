@@ -88,9 +88,6 @@ public class HomeDetailFragment extends Fragment implements LoaderManager.Loader
                 case R.id.action_edit:
                     Utils.showToast(getActivity(), "Clicked on edit");
                     return true;
-                // case R.id.action_delete:
-                //    Utils.showToast(getActivity(), "Clicked on delete");
-                //    return true;
                 default:
                     return true;
             }
@@ -118,19 +115,20 @@ public class HomeDetailFragment extends Fragment implements LoaderManager.Loader
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
         data.moveToFirst();
+        if (data.getCount() > 0) {
+            // update the ActionBar Title
+            String name = data.getString(data.getColumnIndex(DatabaseContract.Model.COLUMN_NAME));
+            ((MainFragment) getParentFragment()).setPageTitle(name);
 
-        // update the ActionBar Title
-        String name = data.getString(data.getColumnIndex(DatabaseContract.Model.COLUMN_NAME));
-        ((MainFragment)getParentFragment()).setPageTitle(name);
-
-        // populate layout elements
-        mDetailContainer.setVisibility(View.VISIBLE);
-        mName.setText(name);
-        mAddress.setText(data.getString(data.getColumnIndex(DatabaseContract.Model.COLUMN_ADDRESS)));
-        mUrl.setText(data.getString(data.getColumnIndex(DatabaseContract.Model.COLUMN_URL)));
-        mEmail.setText(data.getString(data.getColumnIndex(DatabaseContract.Model.COLUMN_EMAIL)));
-        mPhone.setText(data.getString(data.getColumnIndex(DatabaseContract.Model.COLUMN_PHONE)));
-        mBackdrop.setImageResource(data.getInt(data.getColumnIndex(DatabaseContract.Model.COLUMN_BACKDROP)));
+            // populate layout elements
+            mDetailContainer.setVisibility(View.VISIBLE);
+            mName.setText(name);
+            mAddress.setText(data.getString(data.getColumnIndex(DatabaseContract.Model.COLUMN_ADDRESS)));
+            mUrl.setText(data.getString(data.getColumnIndex(DatabaseContract.Model.COLUMN_URL)));
+            mEmail.setText(data.getString(data.getColumnIndex(DatabaseContract.Model.COLUMN_EMAIL)));
+            mPhone.setText(data.getString(data.getColumnIndex(DatabaseContract.Model.COLUMN_PHONE)));
+            mBackdrop.setImageResource(data.getInt(data.getColumnIndex(DatabaseContract.Model.COLUMN_BACKDROP)));
+        }
     }
 
     @Override

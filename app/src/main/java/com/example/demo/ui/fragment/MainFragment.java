@@ -1,9 +1,12 @@
 package com.example.demo.ui.fragment;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,9 +14,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 
 import com.example.demo.R;
 import com.example.demo.common.Constants;
+import com.example.demo.common.Utils;
+import com.example.demo.common.fragments.ContractFragment;
+import com.example.demo.common.fragments.CustomDialogFragment;
 import com.example.demo.ui.activity.MainActivity;
 
 import timber.log.Timber;
@@ -21,6 +28,7 @@ import timber.log.Timber;
 public class MainFragment extends Fragment implements MainActivity.onBackPressedListener{
 
     private static final String IS_DETAIL_SHOWING = "is_detail_showing";
+
     private boolean mIsTablet = false;
     private boolean mIsPortrait = false;
     private boolean mIsDetailShowing = false;
@@ -94,7 +102,7 @@ public class MainFragment extends Fragment implements MainActivity.onBackPressed
         return false;
     }
 
-    // called by the child HomeFragment
+    // impl onClick of ModelItemAdapter - called by the child HomeFragment
     protected void listItemClick(Uri uri) {
         mIsDetailShowing = true;
         mItemUri = uri;
@@ -107,6 +115,37 @@ public class MainFragment extends Fragment implements MainActivity.onBackPressed
 
         // tell the hosting activity to show the 'up arrow' on devices other than tablets in landscape orientation
         ((MainActivity)getActivity()).showUpNav();
+    }
+
+    // impl onLongClick of ModelItemAdapter
+    protected void listItemLongClick(Uri uri) {
+        // display a dialog fragment, before deleting the item from database & updating ui
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        CustomDialogFragment dialog = CustomDialogFragment.newInstance(uri);
+        dialog.setTargetFragment(this, Constants.REQUEST_CODE_ITEM_DELETION);
+        dialog.show(fm, "delete_record");
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Constants.REQUEST_CODE_ITEM_DELETION) {
+            boolean itemDeleted = data.getBooleanExtra(Constants.CONFIRM_ITEM_DELETION, false);
+                Timber.i("%s is item deleted: %s", Constants.LOG_TAG, itemDeleted);
+            if (itemDeleted) {
+                // communicate to home fragment to update ui
+                HomeFragment homeFragment = (HomeFragment) getChildFragmentManager().findFragmentById(R.id.fragment_container);
+                if (homeFragment != null) { // CHECK ?? needed
+                    homeFragment.updateItemList();
+                }
+                if (mIsTablet && !mIsPortrait) {
+                    // remove the detail fragment from view
+                    getChildFragmentManager().beginTransaction()
+                            .remove(getChildFragmentManager().findFragmentById(R.id.detail_pane))
+                            .commit();
+
+                }
+            }
+        }
     }
 
     // called by the child HomeDetailFragment
@@ -176,6 +215,5 @@ public class MainFragment extends Fragment implements MainActivity.onBackPressed
     private void showSecondaryFragment(Fragment fragment, boolean addToBackStack, String backStackTag, boolean animate) {
         showFragment(fragment, false, addToBackStack, backStackTag, animate);
     }
-
 
 }

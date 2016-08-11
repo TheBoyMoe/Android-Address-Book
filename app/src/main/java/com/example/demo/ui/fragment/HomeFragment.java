@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import com.example.demo.R;
 import com.example.demo.common.Constants;
 import com.example.demo.common.CustomItemDecoration;
+import com.example.demo.common.fragments.ContractFragment;
 import com.example.demo.data.DatabaseContract;
 import com.example.demo.data.ModelItemAdapter;
 
@@ -58,11 +59,22 @@ public class HomeFragment extends Fragment implements LoaderManager.LoaderCallba
                 // propagate the call up to the hosting fragment
                 ((MainFragment)getParentFragment()).listItemClick(uri);
             }
+
+            @Override
+            public void onLongClick(Uri uri) {
+                // propagate the call upto the hosting fragment
+                ((MainFragment)getParentFragment()).listItemLongClick(uri);
+            }
         };
         mAdapter = new ModelItemAdapter(recyclerView, itemClickListener);
         recyclerView.setAdapter(mAdapter);
 
         return view;
+    }
+
+    // called from MainFragment when item has been deleted or edited
+    public void updateItemList() {
+        mAdapter.notifyDataSetChanged();
     }
 
 
@@ -72,7 +84,6 @@ public class HomeFragment extends Fragment implements LoaderManager.LoaderCallba
         super.onActivityCreated(savedInstanceState);
         // initialize the cursor loader when the hosting activity is created
         getLoaderManager().initLoader(MODEL_ITEM_LOADER, null, this);
-        Timber.i("%s Cursor Loader initialized", Constants.LOG_TAG);
     }
 
     // impl LoadCallback methods
@@ -100,11 +111,6 @@ public class HomeFragment extends Fragment implements LoaderManager.LoaderCallba
     public void onLoaderReset(Loader<Cursor> loader) {
         mAdapter.swapCursor(null);
     }
-
-    public void updateModelItemList() {
-        mAdapter.notifyDataSetChanged();
-    }
-
 
 
 }

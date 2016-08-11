@@ -26,5 +26,8 @@
     <string name="hint_enter_url">Enter web address</string>
     <string name="action_title_edit">Edit</string>
     <string name="action_title_delete">Delete</string>
+    <string name="dialog_negative_button_text">No</string>
+    <string name="dialog_positive_button_text">OK</string>
+    <string name="dialog_title_text">Are you sure you want to delete the item?</string>
 
 </resources>
