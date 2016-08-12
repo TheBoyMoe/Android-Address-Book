@@ -28,7 +28,7 @@ import com.example.demo.ui.fragment.FavouriteFragment;
 import com.example.demo.ui.fragment.HomeFragment;
 import com.example.demo.ui.fragment.MainFragment;
 import com.example.demo.ui.fragment.SettingsFragment;
-import com.squareup.otto.Subscribe;
+
 
 import de.greenrobot.event.EventBus;
 import timber.log.Timber;
