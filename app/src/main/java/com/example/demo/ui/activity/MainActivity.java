@@ -21,13 +21,16 @@ import android.view.View;
 import com.example.demo.R;
 import com.example.demo.common.Constants;
 import com.example.demo.common.Utils;
+import com.example.demo.event.MessageEvent;
 import com.example.demo.ui.fragment.AboutFragment;
 import com.example.demo.ui.fragment.ExploreFragment;
 import com.example.demo.ui.fragment.FavouriteFragment;
 import com.example.demo.ui.fragment.HomeFragment;
 import com.example.demo.ui.fragment.MainFragment;
 import com.example.demo.ui.fragment.SettingsFragment;
+import com.squareup.otto.Subscribe;
 
+import de.greenrobot.event.EventBus;
 import timber.log.Timber;
 
 /**
@@ -89,8 +92,8 @@ public class MainActivity extends AppCompatActivity{
                 showUpNav();
             }
             // DEBUG
-            Timber.i("%s: title: %s, portrait: %s, isUpVisible: %s",
-                    Constants.LOG_TAG, mCurrentTitle, mIsPortrait, mIsUpVisible);
+            // Timber.i("%s: title: %s, portrait: %s, isUpVisible: %s",
+            //        Constants.LOG_TAG, mCurrentTitle, mIsPortrait, mIsUpVisible);
         }
 
     }
@@ -98,11 +101,18 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onResume() {
         super.onResume();
+        EventBus.getDefault().registerSticky(this);
         if (mIsUpVisible) {
             showUpNav();
         } else {
             hideUpNav();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        EventBus.getDefault().unregister(this);
+        super.onPause();
     }
 
     @Override
@@ -259,5 +269,11 @@ public class MainActivity extends AppCompatActivity{
             onBackPressed();
         }
     };
+
+    // handle messages posted to the bus
+    public void onEventMainThread(MessageEvent event) {
+        Utils.showSnackbar(mLayout, event.getMessage());
+        EventBus.getDefault().removeStickyEvent(event);
+    }
 
 }

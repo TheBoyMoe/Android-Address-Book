@@ -9,12 +9,15 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 
+import com.example.demo.DemoApplication;
 import com.example.demo.R;
 import com.example.demo.common.Constants;
 import com.example.demo.common.Utils;
 import com.example.demo.data.DatabaseContract;
+import com.example.demo.event.MessageEvent;
 import com.example.demo.ui.fragment.ModelItemFragment;
 
+import de.greenrobot.event.EventBus;
 import timber.log.Timber;
 
 public class ModelItemActivity extends AppCompatActivity implements
@@ -24,20 +27,19 @@ public class ModelItemActivity extends AppCompatActivity implements
     @Override
     public void saveModelItem(ContentValues values) {
         // DEBUG
-        String name = values.getAsString(DatabaseContract.Model.COLUMN_NAME);
-        String address = values.getAsString(DatabaseContract.Model.COLUMN_ADDRESS);
-        String url = values.getAsString(DatabaseContract.Model.COLUMN_URL);
-        String email = values.getAsString(DatabaseContract.Model.COLUMN_EMAIL);
-        String phone = values.getAsString(DatabaseContract.Model.COLUMN_PHONE);
-        Timber.i("%s: name: %s, address: %s, url: %s, email: %s, phone: %s",
-                Constants.LOG_TAG, name, address, url, email, phone);
+        // String name = values.getAsString(DatabaseContract.Model.COLUMN_NAME);
+        // String address = values.getAsString(DatabaseContract.Model.COLUMN_ADDRESS);
+        // String url = values.getAsString(DatabaseContract.Model.COLUMN_URL);
+        // String email = values.getAsString(DatabaseContract.Model.COLUMN_EMAIL);
+        // String phone = values.getAsString(DatabaseContract.Model.COLUMN_PHONE);
+        // Timber.i("%s: name: %s, address: %s, url: %s, email: %s, phone: %s",
+        //        Constants.LOG_TAG, name, address, url, email, phone);
 
-        // use the activity's content resolver to invoke insert on the content provider
         Uri newRecordUri = getContentResolver().insert(DatabaseContract.Model.CONTENT_URI, values);
         if (newRecordUri != null) {
-            // TODO generate message
+            EventBus.getDefault().postSticky(new MessageEvent(Constants.MESSAGE_SUCCESS_SAVING_ITEM));
         } else {
-
+            EventBus.getDefault().postSticky(new MessageEvent(Constants.MESSAGE_ERROR_SAVING_ITEM));
         }
         finish();
     }
@@ -47,9 +49,9 @@ public class ModelItemActivity extends AppCompatActivity implements
         // update item record in database
         int numRows = getContentResolver().update(itemUri, values, null, null);
         if (numRows > 0) {
-            // TODO generate message
+            EventBus.getDefault().postSticky(new MessageEvent(Constants.MESSAGE_SUCCESS_UPDATING_ITEM));
         } else {
-
+           EventBus.getDefault().postSticky(new MessageEvent(Constants.MESSAGE_ERROR_UPDATING_ITEM));
         }
         finish();
     }
