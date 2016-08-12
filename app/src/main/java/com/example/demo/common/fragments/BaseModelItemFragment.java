@@ -44,7 +44,6 @@ public class BaseModelItemFragment extends Fragment{
         return mView;
     }
 
-    @SuppressWarnings("ConstantConditions")
     protected ContentValues getEditTextValues() {
         // generate random backdrop image, save with item
         Random generator = new Random();
@@ -54,24 +53,43 @@ public class BaseModelItemFragment extends Fragment{
         int color = colorGenerator.getRandomColor();
 
         return Utils.setModelItemValues(
-                mName.getEditText().getText() != null ? mName.getEditText().getText().toString() : "",
-                mAddress.getEditText().getText() != null ? mAddress.getEditText().getText().toString() : "",
-                mUrl.getEditText().getText() != null ? mUrl.getEditText().getText().toString() : "",
-                mEmail.getEditText().getText() != null ? mEmail.getEditText().getText().toString() : "",
-                mPhone.getEditText().getText() != null ? mPhone.getEditText().getText().toString() : "",
+                // return content values when saving item values for first time
+                getEditTextValue(mName),
+                getEditTextValue(mAddress),
+                getEditTextValue(mUrl),
+                getEditTextValue(mEmail),
+                getEditTextValue(mPhone),
                 image, color);
     }
 
-    protected void setEditTextValues(Cursor cursor) {
+    protected ContentValues getUpdatedEditTextValues() {
+        // return content values when updating item values
+        return Utils.setModelItemValues(
+                getEditTextValue(mName),
+                getEditTextValue(mAddress),
+                getEditTextValue(mUrl),
+                getEditTextValue(mEmail),
+                getEditTextValue(mPhone)
+        );
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    private String getEditTextValue(TextInputLayout view) {
+        return view.getEditText().getText() != null ? view.getEditText().getText().toString() : "";
+    }
+
+    protected String setEditTextValues(Cursor cursor) {
+        String  name = null;
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
-            Timber.i("%s: retrieve values from cursor", Constants.LOG_TAG);
-            setFieldValue(mName, getFieldValue(cursor, DatabaseContract.Model.COLUMN_NAME));
+            name = getFieldValue(cursor, DatabaseContract.Model.COLUMN_NAME);
+            setFieldValue(mName, name);
             setFieldValue(mAddress, getFieldValue(cursor, DatabaseContract.Model.COLUMN_ADDRESS));
             setFieldValue(mUrl, getFieldValue(cursor, DatabaseContract.Model.COLUMN_URL));
             setFieldValue(mEmail, getFieldValue(cursor, DatabaseContract.Model.COLUMN_EMAIL));
             setFieldValue(mPhone, getFieldValue(cursor, DatabaseContract.Model.COLUMN_PHONE));
         }
+        return name;
     }
 
     private String getFieldValue(Cursor cursor, String columnName) {

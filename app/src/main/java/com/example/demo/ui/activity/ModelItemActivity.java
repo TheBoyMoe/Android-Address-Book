@@ -35,17 +35,23 @@ public class ModelItemActivity extends AppCompatActivity implements
         // use the activity's content resolver to invoke insert on the content provider
         Uri newRecordUri = getContentResolver().insert(DatabaseContract.Model.CONTENT_URI, values);
         if (newRecordUri != null) {
-            Utils.showSnackbar(mLayout, "Record added successfully");
+            // TODO generate message
         } else {
-            Utils.showSnackbar(mLayout, "Error, recorded not added to database");
+
         }
         finish();
     }
 
     @Override
-    public void updateModelItem(ContentValues values) {
-        // TODO update item record in database
+    public void updateModelItem(Uri itemUri, ContentValues values) {
+        // update item record in database
+        int numRows = getContentResolver().update(itemUri, values, null, null);
+        if (numRows > 0) {
+            // TODO generate message
+        } else {
 
+        }
+        finish();
     }
 
     @Override

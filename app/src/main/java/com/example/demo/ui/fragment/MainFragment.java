@@ -138,7 +138,6 @@ public class MainFragment extends Fragment implements MainActivity.onBackPressed
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == Constants.REQUEST_CODE_ITEM_DELETION) {
             boolean itemDeleted = data.getBooleanExtra(Constants.CONFIRM_ITEM_DELETION, false);
-                Timber.i("%s is item deleted: %s", Constants.LOG_TAG, itemDeleted);
             if (itemDeleted) {
                 // communicate to home fragment to update ui
                 HomeFragment homeFragment = (HomeFragment) getChildFragmentManager().findFragmentById(R.id.fragment_container);

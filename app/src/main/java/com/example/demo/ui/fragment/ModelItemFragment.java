@@ -28,11 +28,12 @@ public class ModelItemFragment extends ContractFragment<ModelItemFragment.Contra
 
     public interface Contract {
         void saveModelItem(ContentValues values);
-        void updateModelItem(ContentValues values);
+        void updateModelItem(Uri itemUri, ContentValues values);
         void quit();
     }
 
     private Uri mItemUri;
+    private String mNameText;
 
     public ModelItemFragment() {}
 
@@ -60,7 +61,6 @@ public class ModelItemFragment extends ContractFragment<ModelItemFragment.Contra
         if (getArguments() != null) {
             mItemUri = getArguments().getParcelable(Constants.MODEL_ITEM_URI);
         }
-
         return mView;
     }
 
@@ -68,13 +68,19 @@ public class ModelItemFragment extends ContractFragment<ModelItemFragment.Contra
         @SuppressWarnings("ConstantConditions")
         @Override
         public void onClick(View view) {
+            ContentValues values = null;
+            // show message to user with regards to success/failure of operation
             String name = (mName.getEditText().getText() != null) ? mName.getEditText().getText().toString() : "";
-            if (!name.isEmpty()) {
-                ContentValues values = getEditTextValues();
-                getContract().saveModelItem(values);
+            if (!name.isEmpty() && name.length() > 2) { // name needs to be 3 or more chars
+                if (mNameText != null) { // update an existing item
+                    values = getUpdatedEditTextValues();
+                    getContract().updateModelItem(mItemUri, values);
+                } else { // save a new item
+                    values = getEditTextValues();
+                    getContract().saveModelItem(values);
+                }
             }
-            // TODO update model item
-            else {
+            else { // nothing to save
                 getContract().quit();
             }
         }
@@ -109,7 +115,7 @@ public class ModelItemFragment extends ContractFragment<ModelItemFragment.Contra
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         // populate element fields
-        setEditTextValues(data);
+        mNameText = setEditTextValues(data);
     }
 
     @Override

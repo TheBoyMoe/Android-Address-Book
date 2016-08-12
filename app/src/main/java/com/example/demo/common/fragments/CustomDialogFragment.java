@@ -55,7 +55,6 @@ public class CustomDialogFragment extends DialogFragment implements View.OnClick
                     // delete the item from the database
                     int numOfRows = getActivity().getContentResolver().delete(mItemUri, null, null);
                     if (numOfRows > 0) {
-                        Timber.i("%s: item, uri: %s, deleted", Constants.LOG_TAG, mItemUri);
                         confirmItemDeletion(true);
                     }
                 }

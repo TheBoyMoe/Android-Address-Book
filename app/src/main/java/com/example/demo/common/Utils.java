@@ -101,5 +101,16 @@ public class Utils {
         return values;
     }
 
+    public static ContentValues setModelItemValues(String name,
+              String address, String url, String email, String phone) {
+        ContentValues values = new ContentValues();
+        values.put(DatabaseContract.Model.COLUMN_NAME, name);
+        values.put(DatabaseContract.Model.COLUMN_ADDRESS, address);
+        values.put(DatabaseContract.Model.COLUMN_URL, url);
+        values.put(DatabaseContract.Model.COLUMN_EMAIL, email);
+        values.put(DatabaseContract.Model.COLUMN_PHONE, phone);
+        return values;
+    }
+
 
 }
