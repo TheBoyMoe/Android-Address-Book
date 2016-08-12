@@ -22,6 +22,7 @@ import com.example.demo.common.Utils;
 import com.example.demo.common.fragments.ContractFragment;
 import com.example.demo.common.fragments.CustomDialogFragment;
 import com.example.demo.ui.activity.MainActivity;
+import com.example.demo.ui.activity.ModelItemActivity;
 
 import timber.log.Timber;
 
@@ -126,6 +127,13 @@ public class MainFragment extends Fragment implements MainActivity.onBackPressed
         dialog.show(fm, "delete_record");
     }
 
+    // impl edit of item details
+    protected void editDetailItem(Uri uri) {
+        if (uri != null) {
+            ModelItemActivity.launch(getActivity(), uri);
+        }
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == Constants.REQUEST_CODE_ITEM_DELETION) {
@@ -215,5 +223,6 @@ public class MainFragment extends Fragment implements MainActivity.onBackPressed
     private void showSecondaryFragment(Fragment fragment, boolean addToBackStack, String backStackTag, boolean animate) {
         showFragment(fragment, false, addToBackStack, backStackTag, animate);
     }
+
 
 }

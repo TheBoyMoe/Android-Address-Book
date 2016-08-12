@@ -1,6 +1,7 @@
 package com.example.demo.common.fragments;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
@@ -11,10 +12,14 @@ import android.view.ViewGroup;
 
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.example.demo.R;
+import com.example.demo.common.Constants;
 import com.example.demo.common.Utils;
+import com.example.demo.data.DatabaseContract;
 import com.example.demo.data.ModelItemData;
 
 import java.util.Random;
+
+import timber.log.Timber;
 
 public class BaseModelItemFragment extends Fragment{
 
@@ -57,5 +62,27 @@ public class BaseModelItemFragment extends Fragment{
                 image, color);
     }
 
+    protected void setEditTextValues(Cursor cursor) {
+        if (cursor != null && cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            Timber.i("%s: retrieve values from cursor", Constants.LOG_TAG);
+            setFieldValue(mName, getFieldValue(cursor, DatabaseContract.Model.COLUMN_NAME));
+            setFieldValue(mAddress, getFieldValue(cursor, DatabaseContract.Model.COLUMN_ADDRESS));
+            setFieldValue(mUrl, getFieldValue(cursor, DatabaseContract.Model.COLUMN_URL));
+            setFieldValue(mEmail, getFieldValue(cursor, DatabaseContract.Model.COLUMN_EMAIL));
+            setFieldValue(mPhone, getFieldValue(cursor, DatabaseContract.Model.COLUMN_PHONE));
+        }
+    }
+
+    private String getFieldValue(Cursor cursor, String columnName) {
+        return cursor.getString(cursor.getColumnIndex(columnName));
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    private void setFieldValue(TextInputLayout field, String value) {
+        if (value != null && !value.isEmpty()) {
+            field.getEditText().setText(value);
+        }
+    }
 
 }

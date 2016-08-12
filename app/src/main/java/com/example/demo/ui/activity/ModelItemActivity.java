@@ -43,12 +43,24 @@ public class ModelItemActivity extends AppCompatActivity implements
     }
 
     @Override
+    public void updateModelItem(ContentValues values) {
+        // TODO update item record in database
+
+    }
+
+    @Override
     public void quit() {
         finish();
     }
 
     public static void launch(Activity activity) {
         Intent intent = new Intent(activity, ModelItemActivity.class);
+        activity.startActivity(intent);
+    }
+
+    public static void launch(Activity activity, Uri uri) {
+        Intent intent = new Intent(activity, ModelItemActivity.class);
+        intent.putExtra(Constants.MODEL_ITEM_URI, uri);
         activity.startActivity(intent);
     }
 
@@ -59,10 +71,20 @@ public class ModelItemActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_model_item);
         mLayout = (CoordinatorLayout) findViewById(R.id.coordinator_layout);
-        if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, ModelItemFragment.newInstance())
-                    .commit();
+
+        Uri itemUri = getIntent().getParcelableExtra(Constants.MODEL_ITEM_URI);
+        ModelItemFragment fragment =
+                (ModelItemFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        if (fragment == null) {
+            if (itemUri == null) {
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.fragment_container, ModelItemFragment.newInstance())
+                        .commit();
+            } else {
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.fragment_container, ModelItemFragment.newInstance(itemUri))
+                        .commit();
+            }
         }
     }
 }

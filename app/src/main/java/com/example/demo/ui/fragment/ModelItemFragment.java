@@ -1,8 +1,13 @@
 package com.example.demo.ui.fragment;
 
 import android.content.ContentValues;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,20 +16,36 @@ import android.view.ViewGroup;
 
 
 import com.example.demo.R;
+import com.example.demo.common.Constants;
 import com.example.demo.common.Utils;
 import com.example.demo.common.fragments.ContractFragment;
 
-public class ModelItemFragment extends ContractFragment<ModelItemFragment.Contract> {
+import timber.log.Timber;
+
+public class ModelItemFragment extends ContractFragment<ModelItemFragment.Contract>
+        implements LoaderManager.LoaderCallbacks<Cursor>{
+
 
     public interface Contract {
         void saveModelItem(ContentValues values);
+        void updateModelItem(ContentValues values);
         void quit();
     }
+
+    private Uri mItemUri;
 
     public ModelItemFragment() {}
 
     public static ModelItemFragment newInstance() {
         return new ModelItemFragment();
+    }
+
+    public static ModelItemFragment newInstance(Uri uri) {
+        ModelItemFragment fragment = new ModelItemFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(Constants.MODEL_ITEM_URI, uri);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Nullable
@@ -36,6 +57,10 @@ public class ModelItemFragment extends ContractFragment<ModelItemFragment.Contra
             Utils.setupToolbar(getActivity(), toolbar);
             toolbar.setNavigationOnClickListener(navigationOnClickListener);
         }
+        if (getArguments() != null) {
+            mItemUri = getArguments().getParcelable(Constants.MODEL_ITEM_URI);
+        }
+
         return mView;
     }
 
@@ -47,11 +72,50 @@ public class ModelItemFragment extends ContractFragment<ModelItemFragment.Contra
             if (!name.isEmpty()) {
                 ContentValues values = getEditTextValues();
                 getContract().saveModelItem(values);
-            } else {
+            }
+            // TODO update model item
+            else {
                 getContract().quit();
             }
         }
     };
+
+
+    // impl Loader Callback
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (mItemUri != null) {
+            // initialize the cursor loader when the hosting activity is created
+            getLoaderManager().initLoader(Constants.MODEL_ITEM_LOADER, null, this);
+        }
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        // retrieve the record for the submitted uri
+        CursorLoader loader;
+        switch (id) {
+            case Constants.MODEL_ITEM_LOADER:
+                loader = new CursorLoader(getActivity(), mItemUri, null, null, null, null);
+                break;
+            default:
+                loader = null;
+                break;
+        }
+        return loader;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        // populate element fields
+        setEditTextValues(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        // no-op
+    }
 
 
 }

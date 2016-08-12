@@ -71,12 +71,13 @@ public class HomeDetailFragment extends Fragment implements LoaderManager.Loader
 
         mItemUri = getArguments().getParcelable(Constants.MODEL_ITEM_URI);
         if (mItemUri != null) {
+            // TODO load the initial item when app launches
             mDetailContainer.setVisibility(View.VISIBLE);
             // initialize the loader
             getLoaderManager().initLoader(MODEL_ITEM_LOADER, null, this);
         } else {
             mDetailContainer.setVisibility(View.INVISIBLE);
-            Timber.i("%s: mItemUri: null", Constants.LOG_TAG);
+            // Timber.i("%s: mItemUri: null", Constants.LOG_TAG);
         }
         return view;
     }
@@ -86,7 +87,8 @@ public class HomeDetailFragment extends Fragment implements LoaderManager.Loader
         public boolean onMenuItemClick(MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.action_edit:
-                    Utils.showToast(getActivity(), "Clicked on edit");
+                    // forward call to edit item to parent fragment
+                    ((MainFragment)getParentFragment()).editDetailItem(mItemUri);
                     return true;
                 default:
                     return true;
@@ -102,7 +104,7 @@ public class HomeDetailFragment extends Fragment implements LoaderManager.Loader
         CursorLoader loader;
         switch (id) {
             case MODEL_ITEM_LOADER:
-                loader = new CursorLoader(getActivity(), mItemUri, null, null, null, null); // CHECK
+                loader = new CursorLoader(getActivity(), mItemUri, null, null, null, null);
                 break;
             default:
                 loader = null;

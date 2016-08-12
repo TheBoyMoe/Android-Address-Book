@@ -30,7 +30,7 @@ public class HomeFragment extends Fragment implements LoaderManager.LoaderCallba
 //        void listItemClick(int position);
 //    }
 
-    private static final int MODEL_ITEM_LOADER = 0;
+    // private static final int MODEL_ITEM_LOADER = 0;
     private ModelItemAdapter mAdapter;
 
     public HomeFragment() {}
@@ -56,13 +56,13 @@ public class HomeFragment extends Fragment implements LoaderManager.LoaderCallba
             public void onClick(Uri uri) {
                 // getContract().listItemClick(position);
 
-                // propagate the call up to the hosting fragment
+                // forward the call up to the hosting fragment
                 ((MainFragment)getParentFragment()).listItemClick(uri);
             }
 
             @Override
             public void onLongClick(Uri uri) {
-                // propagate the call upto the hosting fragment
+                // forward the call upto the hosting fragment
                 ((MainFragment)getParentFragment()).listItemLongClick(uri);
             }
         };
@@ -83,14 +83,14 @@ public class HomeFragment extends Fragment implements LoaderManager.LoaderCallba
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // initialize the cursor loader when the hosting activity is created
-        getLoaderManager().initLoader(MODEL_ITEM_LOADER, null, this);
+        getLoaderManager().initLoader(Constants.MODEL_ITEM_LOADER, null, this);
     }
 
     // impl LoadCallback methods
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         switch (id) {
-            case MODEL_ITEM_LOADER:
+            case Constants.MODEL_ITEM_LOADER:
                 return new CursorLoader(getActivity(),
                         DatabaseContract.Model.CONTENT_URI,
                         null,
