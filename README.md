@@ -29,8 +29,9 @@ This sample uses the Gradle build system. To build this project, use the
 Screenshots
 -----------
 
-![Phone](screenshots/content-provider-app-preview-1.gif "Interacting with the app")
-![Phone](screenshots/content-provider-app-preview-2.gif "Interacting with the app")
+![Phone](screencasts/tablet-sequence.gif "Interacting with the app on a tablet")
+
+![Phone](screencasts/phone-sequence.gif "Interacting with the app on a phone")
 
 Credit
 ------
